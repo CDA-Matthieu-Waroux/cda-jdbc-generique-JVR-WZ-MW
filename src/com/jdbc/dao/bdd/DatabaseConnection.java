@@ -1,6 +1,5 @@
 package com.jdbc.dao.bdd;
 
-import java.beans.PropertyVetoException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,29 +11,29 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class DatabaseConnection {
 
 	// 1 mariadb - 2 mysql
-	private static int choixSgbd = 1;
+	private static int choixSgbd = 2;
 	private static DatabaseConnection databaseconnection;
 	private BasicDataSource ds;
 	private Properties properties = new Properties();
 	private FileInputStream fis;
 
-	private DatabaseConnection() throws IOException, SQLException, PropertyVetoException {
+	private DatabaseConnection() {
 		try {
-			fis = new FileInputStream("src\\jdbc.properties");
+			fis = new FileInputStream("src/jdbc.properties");
 			properties.load(fis);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		ds = new BasicDataSource();
-		switch(choixSgbd) {
-		case 1 :
+		switch (choixSgbd) {
+		case 1:
 			ds.setDriverClassName(properties.getProperty("MARIA_DB_DRIVER_CLASS"));
 			ds.setUrl(properties.getProperty("MARIA_DB_URL"));
 			ds.setUsername(properties.getProperty("MARIA_DB_USERNAME"));
 			ds.setPassword(properties.getProperty("MARIA_DB_PASSWORD"));
 			break;
-		case 2 :
+		case 2:
 			ds.setDriverClassName(properties.getProperty("MYSQL_DB_DRIVER_CLASS"));
 			ds.setUrl(properties.getProperty("MYSQL_DB_URL"));
 			ds.setUsername(properties.getProperty("MYSQL_DB_USERNAME"));
@@ -42,7 +41,7 @@ public class DatabaseConnection {
 			break;
 		}
 
-		// définit le nombre minimum de connexions inactives
+		// definit le nombre minimum de connexions inactives
 		ds.setMinIdle(5);
 
 		// renvoie le nombre maximal de connexions pouvant rester inactives dans le
@@ -54,7 +53,7 @@ public class DatabaseConnection {
 
 	}
 
-	public static DatabaseConnection getInstance() throws IOException, SQLException, PropertyVetoException {
+	public static DatabaseConnection getInstance() {
 		if (databaseconnection == null) {
 			databaseconnection = new DatabaseConnection();
 			return databaseconnection;
