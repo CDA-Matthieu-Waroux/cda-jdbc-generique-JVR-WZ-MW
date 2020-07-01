@@ -1,27 +1,31 @@
 package com.jdbc.dao.bdd;
 
+import java.util.List;
+
 import com.jdbc.dao.IClientDao;
+import com.librairie.model.personne.Client;
 
 public class ClientDaoImpl implements IClientDao {
 
 	@Override
-	public void create() {
-
+	public void create(Client pObbject) {
+		
 	}
 
 	@Override
-	public void read() {
-
+	public List<Client> readAll() {
+		return null;
 	}
 
 	@Override
-	public void update() {
-
+	public void update(Client pObject) {
+		
 	}
 
 	@Override
-	public void delete() {
-
+	public void delete(Client pObject) {
+		
 	}
+
 
 }
