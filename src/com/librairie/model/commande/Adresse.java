@@ -5,13 +5,13 @@ public class Adresse {
 	private int numero;
 	private String rue;
 	private String ville;
-	private int codePostal;
+	private String codePostal;
 	private String pays;
 
 	public Adresse() {
 	}
 
-	public Adresse(int numero, String rue, String ville, int codePostal, String pays) {
+	public Adresse(int numero, String rue, String ville, String codePostal, String pays) {
 		super();
 		this.numero = numero;
 		this.rue = rue;
