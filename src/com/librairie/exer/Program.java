@@ -1,7 +1,5 @@
 package com.librairie.exer;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,8 +10,8 @@ public class Program {
 		Connection c = null;
 		try {
 			c = DatabaseConnection.getInstance().getConnection();
-			System.out.println("connecté");
-		} catch (SQLException | IOException | PropertyVetoException e) {
+			System.out.println("connecte");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
