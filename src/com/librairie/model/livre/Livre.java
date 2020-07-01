@@ -10,11 +10,12 @@ public class Livre {
 	private String editeur;
 	private int prix;
 	private int ref;
+	private int quantitee;
 
 	public Livre() {
 	}
 
-	public Livre(String titre, Auteur auteur, int nombrePage, String editeur, int prix, int ref) {
+	public Livre(String titre, Auteur auteur, int nombrePage, String editeur, int prix, int ref, int quantitee) {
 		super();
 		this.titre = titre;
 		this.auteur = auteur;
@@ -22,6 +23,7 @@ public class Livre {
 		this.editeur = editeur;
 		this.prix = prix;
 		this.ref = ref;
+		this.quantitee = quantitee;
 	}
 
 	public String getTitre() {
@@ -72,4 +74,11 @@ public class Livre {
 		this.ref = ref;
 	}
 
+	public int getQuantitee() {
+		return quantitee;
+	}
+
+	public void setQuantitee(int quantitee) {
+		this.quantitee = quantitee;
+	}
 }
