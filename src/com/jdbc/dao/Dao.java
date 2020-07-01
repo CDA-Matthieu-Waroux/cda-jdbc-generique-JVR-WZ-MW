@@ -1,12 +1,14 @@
 package com.jdbc.dao;
 
+import java.util.List;
+
 public interface Dao<T> {
-	public void create();
+	
+	public void create(T pObbject);
 
-	public void read();
+	public List<T> readAll();
 
-	public void update();
+	public void update(T pObject);
 
-	public void delete();
-
+	public void delete(T pObject);
 }
