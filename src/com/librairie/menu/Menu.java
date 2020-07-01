@@ -1,5 +1,6 @@
 package com.librairie.menu;
 
+import com.librairie.service.livre.ServiceLivre;
 import com.librairie.utils.Utils;
 
 public class Menu {
@@ -17,7 +18,7 @@ public class Menu {
 				break;
 
 			case 2:
-
+				ServiceLivre.readLine();
 				break;
 			case 3:
 

@@ -81,4 +81,14 @@ public class Livre {
 	public void setQuantitee(int quantitee) {
 		this.quantitee = quantitee;
 	}
+
+	@Override
+	public String toString() {
+		return "---Titre : " + this.titre + "\n" + 
+			   "   Reference : " + this.ref + "\n" + 
+			   "   Auteur : " + this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" +
+			   "   Editeur : " + this.editeur + "\n" + 
+			   "   Nombre de pages : " + this.nombrePage + "\n" + 
+			   "   Prix : " + this.prix + "\n";
+	}
 }
