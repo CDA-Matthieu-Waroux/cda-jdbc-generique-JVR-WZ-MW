@@ -11,6 +11,7 @@ public class ServiceUtilisateur {
 	private static Utilisateur vUtilisateur = new Utilisateur();
 	private static Scanner sc = new Scanner(System.in);
 	private static Compte vCompte = new Compte();
+	private static int idCompte = 0;
 
 	public static Utilisateur connection() {
 		IUtilisateurDao dao = new UtilisateurDaoImpl();
@@ -19,6 +20,7 @@ public class ServiceUtilisateur {
 
 		String tempo = sc.nextLine();
 		vCompte.setLogin(tempo);
+		vUtilisateur = new Utilisateur();
 		vUtilisateur.setCp(vCompte);
 
 		vUtilisateur = dao.getByLogin(vUtilisateur);
@@ -29,7 +31,7 @@ public class ServiceUtilisateur {
 
 			if (vUtilisateur.getCp().getPassword().equals(tempo)) {
 				System.out.println("Connexion reussis !");
-
+				idCompte = vUtilisateur.getCp().getIdCompte();
 			} else {
 				vUtilisateur = null;
 				System.out.println("Mot de passe incorrect !");
@@ -41,6 +43,10 @@ public class ServiceUtilisateur {
 		}
 		return vUtilisateur;
 
+	}
+
+	public static int getIdCompte() {
+		return idCompte;
 	}
 
 }
