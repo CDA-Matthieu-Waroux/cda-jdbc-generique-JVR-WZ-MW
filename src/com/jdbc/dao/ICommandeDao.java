@@ -7,6 +7,7 @@ import com.librairie.model.commande.Commande;
 public abstract class ICommandeDao implements Dao<Commande> {
 	@Override
 	public void create(Commande pObbject) {
+
 	}
 
 	@Override

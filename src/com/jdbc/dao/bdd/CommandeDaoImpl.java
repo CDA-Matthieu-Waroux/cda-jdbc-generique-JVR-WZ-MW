@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.jdbc.dao.ICommandeDao;
 import com.librairie.model.commande.Commande;
-import com.librairie.utils.Utils;
 
 public class CommandeDaoImpl extends ICommandeDao {
 	Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -18,7 +17,6 @@ public class CommandeDaoImpl extends ICommandeDao {
 	public void create(String sql, Object... args) {
 		PreparedStatement preparedStatement = null;
 		try {
-			String sql = "INSERT INTO commande(numeroCmd,id_status_commande,id_client) values (?,?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			for (int i = 0; i < args.length; i++) {
 				preparedStatement.setObject(i + 1, args[i]);
@@ -26,8 +24,6 @@ public class CommandeDaoImpl extends ICommandeDao {
 			preparedStatement.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			Utils.closeResource(connection, preparedStatement);
 		}
 	}
 
