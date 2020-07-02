@@ -17,6 +17,7 @@ public class ServiceUtilisateur {
 	private static Compte vCompte = new Compte();
 	private static Adresse vAdresse = new Adresse();
 	private static IUtilisateurDao dao = new UtilisateurDaoImpl();
+	private static int idCompte = 0;
 
 	public static Utilisateur connection() {
 
@@ -24,6 +25,7 @@ public class ServiceUtilisateur {
 
 		String tempo = sc.nextLine();
 		vCompte.setLogin(tempo);
+		vUtilisateur = new Utilisateur();
 		vUtilisateur.setCp(vCompte);
 
 		vUtilisateur = dao.getByLogin(vUtilisateur);
@@ -34,7 +36,7 @@ public class ServiceUtilisateur {
 
 			if (vUtilisateur.getCp().getPassword().equals(tempo)) {
 				System.out.println("Connexion reussis !");
-
+				idCompte = vUtilisateur.getCp().getIdCompte();
 			} else {
 				vUtilisateur = null;
 				System.out.println("Mot de passe incorrect !");
@@ -106,6 +108,10 @@ public class ServiceUtilisateur {
 		dao.createDemandeCompte(vUtilisateur);
 		System.out.println(
 				"Votre demande de création de compte a bien été pris en compte !\n Veuillez attendre la confirmation du libraire pour vous connecter");
+	}
+
+	public static int getIdCompte() {
+		return idCompte;
 	}
 
 }
