@@ -95,6 +95,7 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 			} else {
 				pObjet = null;
 			}
+			rs.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

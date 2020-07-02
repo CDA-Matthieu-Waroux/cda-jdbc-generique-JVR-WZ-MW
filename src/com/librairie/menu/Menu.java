@@ -34,7 +34,7 @@ public class Menu {
 				ServiceLivre.readLine();
 				break;
 			case 3:
-
+				ServiceUtilisateur.inscription();
 				break;
 
 			case 0:
