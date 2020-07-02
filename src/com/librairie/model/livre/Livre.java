@@ -9,7 +9,7 @@ public class Livre {
 	private int nombrePage;
 	private String editeur;
 	private int prix;
-	private int ref;
+	private int reference;
 	private int quantitee;
 
 	public Livre() {
@@ -22,8 +22,15 @@ public class Livre {
 		this.nombrePage = nombrePage;
 		this.editeur = editeur;
 		this.prix = prix;
-		this.ref = ref;
+		this.reference = ref;
 		this.quantitee = quantitee;
+	}
+
+	public Livre(int reference, String titre, int prix) {
+		super();
+		this.reference = reference;
+		this.titre = titre;
+		this.prix = prix;
 	}
 
 	public String getTitre() {
@@ -67,11 +74,11 @@ public class Livre {
 	}
 
 	public int getRef() {
-		return ref;
+		return reference;
 	}
 
 	public void setRef(int ref) {
-		this.ref = ref;
+		this.reference = ref;
 	}
 
 	public int getQuantitee() {
@@ -84,11 +91,8 @@ public class Livre {
 
 	@Override
 	public String toString() {
-		return "---Titre : " + this.titre + "\n" + 
-			   "   Reference : " + this.ref + "\n" + 
-			   "   Auteur : " + this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" +
-			   "   Editeur : " + this.editeur + "\n" + 
-			   "   Nombre de pages : " + this.nombrePage + "\n" + 
-			   "   Prix : " + this.prix + "\n";
+		return "---Titre : " + this.titre + "\n" + "   Reference : " + this.reference + "\n" + "   Auteur : "
+				+ this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" + "   Editeur : " + this.editeur + "\n"
+				+ "   Nombre de pages : " + this.nombrePage + "\n" + "   Prix : " + this.prix + "\n";
 	}
 }
