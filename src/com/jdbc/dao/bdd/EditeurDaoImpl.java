@@ -1,6 +1,7 @@
 package com.jdbc.dao.bdd;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,8 +17,17 @@ public class EditeurDaoImpl implements IEditeurDao {
 	Connection connection = DatabaseConnection.getInstance().getConnection();
 
 	@Override
-	public void create(Editeur pObbject) {
-		
+	public void create(Editeur pObject) {
+		String query = "INSERT INTO editeur(?,?,?)";
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, pObject.getIdEditeur());
+			statement.setString(2, pObject.getNom());
+			statement.setInt(3, pObject.getAdresse().getId());
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

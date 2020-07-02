@@ -4,10 +4,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jdbc.dao.IAdresseDao;
 import com.librairie.model.commande.Adresse;
+import com.librairie.model.livre.Livre;
+import com.librairie.model.personne.Auteur;
+import com.librairie.model.personne.Editeur;
 
 public class AdresseDaoImpl implements IAdresseDao {
 
@@ -22,8 +27,29 @@ public class AdresseDaoImpl implements IAdresseDao {
 
 	@Override
 	public List<Adresse> readAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String query = "select ad.ID_ADRESSE, ad.NUMERO, ad.PAYS, ad.RUE, ad.VILLE, ad.CP from ADRESSE ad";
+	
+	List<Adresse> adresses = new ArrayList<>();
+	try (Statement statement = connection.createStatement();
+			ResultSet result = statement.executeQuery(query)) {
+		while (result.next()) {
+			Adresse tempAdresse = new Adresse();
+			
+			tempAdresse.setId(result.getInt("ad.ID_ADRESSE"));
+			tempAdresse.setNumero(result.getInt("ad.NUMERO"));
+			tempAdresse.setRue(result.getString("ad.RUE"));
+			tempAdresse.setVille(result.getString("ad.VILLE"));
+			tempAdresse.setCodePostal(result.getString("ad.CP"));
+			tempAdresse.setPays(result.getString("ad.PAYS"));
+			
+			adresses.add(tempAdresse);
+		}
+
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+	return adresses;
 	}
 
 	@Override

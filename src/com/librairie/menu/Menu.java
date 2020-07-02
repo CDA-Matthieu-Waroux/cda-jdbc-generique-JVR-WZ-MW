@@ -96,7 +96,7 @@ public class Menu {
 
 	public static void menuClient() {
 		System.out.println("1- Commander");
-		System.out.println("2- Lister commande");
+		System.out.println("2- Lister commande client");
 		System.out.println("3- Annuler commande");
 		System.out.println("4- Lister livre");
 		System.out.println("0- Deconnexion");
@@ -139,7 +139,7 @@ public class Menu {
 	}
 
 	public static void menuLibraire() {
-		System.out.println("1- Lister commande");
+		System.out.println("1- Lister commande de tous les clients");
 		System.out.println("2- Modifier l'etat d'une commande");
 		System.out.println("3- Ajouter un livre");
 		System.out.println("4- Modifierla quantite d'un livre");
