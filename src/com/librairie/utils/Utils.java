@@ -60,4 +60,22 @@ public class Utils {
 		readKeyBoard(100, true);
 	}
 
+	public static byte readByte() {
+		byte n;
+		for (;;) {
+			String str = readKeyBoard(3, false);
+			try {
+				n = Byte.parseByte(str);
+				if (n < 16 || n > 127) {
+					System.out.println("Votre age n'est pas correct. Vous devez etre entre 16-127 ans");
+					continue;
+				}
+				break;
+			} catch (NumberFormatException e) {
+				System.out.print("Le nombre n'est pas correct, veuillez resaissir : ");
+			}
+		}
+		return n;
+	}
+
 }

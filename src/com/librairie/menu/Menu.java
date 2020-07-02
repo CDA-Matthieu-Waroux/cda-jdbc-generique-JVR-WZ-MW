@@ -1,6 +1,10 @@
 package com.librairie.menu;
 
+import com.librairie.model.compte.TypeCompte;
+import com.librairie.model.personne.Utilisateur;
+import com.librairie.service.commande.ServiceCommande;
 import com.librairie.service.livre.ServiceLivre;
+import com.librairie.service.personne.ServiceUtilisateur;
 import com.librairie.utils.Utils;
 
 public class Menu {
@@ -14,6 +18,16 @@ public class Menu {
 			choix = Utils.readInt();
 			switch (choix) {
 			case 1:
+				Utilisateur utilisateur = ServiceUtilisateur.connection();
+				if (utilisateur != null) {
+
+					if (utilisateur.getCp().getType().equals(TypeCompte.CLIENT)) {
+						initClient();
+
+					} else if (utilisateur.getCp().getType().equals(TypeCompte.LIBRAIRE)) {
+						initLibraire();
+					}
+				}
 
 				break;
 
@@ -21,7 +35,7 @@ public class Menu {
 				ServiceLivre.readLine();
 				break;
 			case 3:
-
+				ServiceUtilisateur.inscription();
 				break;
 
 			case 0:
@@ -53,7 +67,7 @@ public class Menu {
 			choix = Utils.readInt();
 			switch (choix) {
 			case 1:
-
+				ServiceCommande.creerCmd();
 				break;
 
 			case 2:
@@ -93,7 +107,7 @@ public class Menu {
 		boolean continuer = true;
 
 		while (continuer) {
-			menuClient();
+			menuLibraire();
 			choix = Utils.readInt();
 			switch (choix) {
 			case 1:
