@@ -41,7 +41,13 @@ public class CompteDaoImpl implements ICompteDao {
 
 			ResultSet rs = ps.executeQuery();
 			if (!rs.next()) {
-				pObjet = null;
+				ps = connection.prepareStatement("select login from comptevalidation where login =?;");
+				ps.setString(1, pObjet.getLogin());
+
+				rs = ps.executeQuery();
+				if (!rs.next()) {
+					pObjet = null;
+				}
 			}
 
 		} catch (SQLException e) {

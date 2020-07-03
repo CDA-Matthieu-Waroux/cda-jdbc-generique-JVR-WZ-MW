@@ -2,7 +2,6 @@ package com.librairie.model.personne;
 
 import com.librairie.model.commande.Adresse;
 
-
 public abstract class Personne {
 
 	protected String nom;
@@ -10,11 +9,11 @@ public abstract class Personne {
 	protected byte age;
 	protected int id;
 	protected Adresse adresse;
-	
+
 	public Personne() {
-		
+
 	}
-	
+
 	public Personne(String nom, String prenom, byte age, int id, Adresse adresse) {
 		this.nom = nom;
 		this.prenom = prenom;

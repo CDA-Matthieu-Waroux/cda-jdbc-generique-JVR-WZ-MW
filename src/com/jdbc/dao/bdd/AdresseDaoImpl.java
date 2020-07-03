@@ -19,7 +19,7 @@ public class AdresseDaoImpl implements IAdresseDao {
 	@Override
 	public void create(Adresse pObject) {
 		String query = "call AddAdress(?,?,?,?,?)";
-		
+
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setInt(1, pObject.getNumero());
 			statement.setString(2, pObject.getRue());
@@ -36,7 +36,7 @@ public class AdresseDaoImpl implements IAdresseDao {
 	public List<Adresse> readAll() {
 		String query = "select ad.ID_ADRESSE, ad.NUMERO, ad.PAYS, ad.RUE, ad.VILLE, ad.CP from ADRESSE ad";
 		List<Adresse> adresses = new ArrayList<>();
-		
+
 		try (Statement statement = connection.createStatement(); ResultSet result = statement.executeQuery(query)) {
 			while (result.next()) {
 				Adresse tempAdresse = new Adresse();
@@ -67,7 +67,8 @@ public class AdresseDaoImpl implements IAdresseDao {
 	public Adresse getAdresse(Adresse pObjet) {
 
 		try {
-			ps = connection.prepareStatement("select * from adresse where adresse.cp =? and adresse.numero =? and adresse.pays =? and adresse.rue =? and adresse.ville =? ;");
+			ps = connection.prepareStatement(
+					"select * from adresse where adresse.cp =? and adresse.numero =? and adresse.pays =? and adresse.rue =? and adresse.ville =? ;");
 			ps.setString(1, pObjet.getCodePostal());
 			ps.setInt(2, pObjet.getNumero());
 			ps.setString(3, pObjet.getPays());
@@ -76,13 +77,45 @@ public class AdresseDaoImpl implements IAdresseDao {
 
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				pObjet.builder().codePostal(rs.getString("cp")).numero(rs.getInt("numero")).rue(rs.getString("rue"))
-						.pays(rs.getString("pays")).ville(rs.getString("ville")).id(rs.getInt("id_adresse")).build();
+				pObjet.setCodePostal(rs.getString("cp"));
+				pObjet.setId(rs.getInt("id_adresse"));
+				pObjet.setNumero(rs.getInt("numero"));
+				pObjet.setPays(rs.getString("pays"));
+				pObjet.setRue(rs.getString("rue"));
+				pObjet.setVille(rs.getString("ville"));
 
+			} else {
+				pObjet = null;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return pObjet;
+	}
+
+	@Override
+	public void LiaisonAdresse() {
+		String query = "call LiaisonAdresse();";
+
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void LiaisonAdresse(Adresse pObjet) {
+		String query = "call LiaisonAdressev2(?); ";
+
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
+			statement.setInt(1, pObjet.getId());
+
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }
