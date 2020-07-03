@@ -17,5 +17,4 @@ public class Adresse {
 	private String ville;
 	private String codePostal;
 	private String pays;
-
 }

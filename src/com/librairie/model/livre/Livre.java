@@ -1,21 +1,29 @@
 package com.librairie.model.livre;
 
 import com.librairie.model.personne.Auteur;
+import com.librairie.model.personne.Editeur;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Livre {
 
-	private String titre;
-	private Auteur auteur;
+	private int ref;
 	private int nombrePage;
-	private String editeur;
 	private int prix;
 	private int reference;
 	private int quantitee;
+	private String titre;
+	private Auteur auteur;
+	private Editeur editeur;
 
-	public Livre() {
-	}
 
-	public Livre(String titre, Auteur auteur, int nombrePage, String editeur, int prix, int ref, int quantitee) {
+	public Livre(String titre, Auteur auteur, int nombrePage, Editeur editeur, int prix, int ref, int quantitee) {
 		super();
 		this.titre = titre;
 		this.auteur = auteur;
@@ -57,11 +65,11 @@ public class Livre {
 		this.nombrePage = nombrePage;
 	}
 
-	public String getEditeur() {
-		return editeur;
+	public Editeur getEditeur() {
+		return this.editeur;
 	}
 
-	public void setEditeur(String editeur) {
+	public void setEditeur(Editeur editeur) {
 		this.editeur = editeur;
 	}
 
