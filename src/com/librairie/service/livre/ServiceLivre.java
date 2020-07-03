@@ -67,4 +67,8 @@ public class ServiceLivre {
 	public static void supprimerLivre() {
 		UtilsLivre.deleteLivre();
 	}
+
+	public static void updateQuantiteLivre() {
+		UtilsLivre.UpdateQuantiteLivre();
+	}
 }

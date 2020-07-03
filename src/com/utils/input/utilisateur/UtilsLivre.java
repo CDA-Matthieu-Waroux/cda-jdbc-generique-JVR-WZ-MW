@@ -99,4 +99,14 @@ public class UtilsLivre {
 		}
 		return livres.get(ref-1);
 	}
+
+	public static void UpdateQuantiteLivre() {
+		Livre livreToUpdate = selectkRefLivre();
+		System.out.println("livre selectionné = " + livreToUpdate);
+		ILivreDao livreDao = new LivreDaoImpl();
+		int prix = askPrix();
+		Livre livreUpdate = new Livre(livreToUpdate.getNombrePage(), prix, livreToUpdate.getRef(), livreToUpdate.getPrix(), livreToUpdate.getTitre(), 
+				livreToUpdate.getAuteur(), livreToUpdate.getEditeur());
+		livreDao.updateQuantitee(livreUpdate);
+	}
 }
