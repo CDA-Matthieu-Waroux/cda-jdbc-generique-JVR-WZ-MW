@@ -8,8 +8,10 @@ import com.librairie.model.personne.Auteur;
 
 public class ServiceAuteur {
 	
+	private static IAuteurDao auteurDao = new AuteurDaoImpl();
+	
 	public static List<Auteur> getAuteurs() {
-		IAuteurDao auteurDao = new AuteurDaoImpl();
+		
 		List<Auteur> auteurs = auteurDao.readAll();
 		for (Auteur a : auteurs) {
 			System.out.println(a);
