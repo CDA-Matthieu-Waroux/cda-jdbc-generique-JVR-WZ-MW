@@ -17,13 +17,13 @@ import lombok.Setter;
 @Setter
 public class ServiceCommande {
 
+	static CommandeDaoImpl cmdDao = new CommandeDaoImpl();
 	static byte status;
 	static int id;
 	static int lastId;
 
 	public static void creerCmd() {
 
-		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
 		String sql = "INSERT INTO commande(id_compte, id_status_commande,date_commande) values (?,?,?)";
 		status = StatusCommande.ENCOURS.getNumero();
 		id = ServiceUtilisateur.getIdCompte();
@@ -34,7 +34,6 @@ public class ServiceCommande {
 	}
 
 	public static void commanderLivre() {
-		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
 		System.out.println("Vous pouvez commencer a commander des livres.");
 
 		boolean continuer = true;
@@ -117,7 +116,7 @@ public class ServiceCommande {
 			case 0:
 				String sql9 = "select count(reference) from composer where numero_commande =? ";
 				if (cmdDao.getResult(sql9, lastId) != 0) {
-					break;
+					continuer = false;
 				} else {
 					String sql7 = "delete from commande where numero_commande=?";
 					cmdDao.update(sql7, lastId);
@@ -137,8 +136,29 @@ public class ServiceCommande {
 	}
 
 	public static void listerCmdLibraire() {
-		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
-		List<Commande> list = cmdDao.readAll();
+		String sql = "select commande.numero_commande ,commande.date_commande,sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
+				+ "from composer\n" + "natural join  commande\n"
+				+ "inner join livre on livre.reference =composer.reference\n"
+				+ "inner join compteutilisateur on compteutilisateur.id_compte =commande.id_compte\n"
+				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
+				+ "group by numero_commande;";
+		List<Commande> list = cmdDao.readAll(sql);
+
+		for (Commande c : list) {
+			System.out.println(c);
+		}
+		Utils.readReturn();
+	}
+
+	public static void listerCmdClient() {
+		String sql = "select commande.numero_commande, commande.date_commande, sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
+				+ "from composer\n" + "natural join  commande\n"
+				+ "inner join livre on livre.reference =composer.reference\n"
+				+ "inner join compteutilisateur on compteutilisateur.id_compte =?\n"
+				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
+				+ "group by numero_commande;";
+
+		List<Commande> list = cmdDao.readAll(sql, ServiceUtilisateur.getIdCompte());
 
 		for (Commande c : list) {
 			System.out.println(c);

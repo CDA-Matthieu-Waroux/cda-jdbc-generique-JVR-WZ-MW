@@ -72,8 +72,9 @@ public class Menu {
 				break;
 
 			case 2:
-
+				ServiceCommande.listerCmdClient();
 				break;
+
 			case 3:
 
 				break;
@@ -116,7 +117,7 @@ public class Menu {
 				break;
 
 			case 2:
-				
+
 				break;
 			case 3:
 				ServiceLivre.createLivre();

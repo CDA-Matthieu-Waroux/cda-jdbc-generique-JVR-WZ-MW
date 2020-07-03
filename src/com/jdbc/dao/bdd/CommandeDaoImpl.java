@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,26 +28,21 @@ public class CommandeDaoImpl extends ICommandeDao {
 		}
 	}
 
-	@Override
-	public List<Commande> readAll() {
-		String sql = "select commande.numero_commande ,commande.date_commande,sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
-				+ "from composer\n" + "natural join  commande\n"
-				+ "inner join livre on livre.reference =composer.reference\n"
-				+ "inner join compteutilisateur on compteutilisateur.id_compte =commande.id_compte\n"
-				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
-				+ "group by numero_commande;";
+	public List<Commande> readAll(String sql, Object... args) {
+
 		List<Commande> commandes = new ArrayList<>();
 		ResultSet resultSet = null;
 
 		try {
 			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				preparedStatement.setObject(i + 1, args[i]);
+			}
 
 			resultSet = preparedStatement.executeQuery();
 
-			Commande tempCommande = new Commande();
-
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			while (resultSet.next()) {
+				Commande tempCommande = new Commande();
 				tempCommande.setNumero_commande(resultSet.getInt("numero_commande"));
 				tempCommande.setDate_commande(resultSet.getTimestamp("date_commande").toString());
 				tempCommande.setPrix_total(resultSet.getBigDecimal("prix_total"));
