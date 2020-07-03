@@ -12,5 +12,6 @@ public class Program {
 		System.out.println("connecte");
 
 		Menu.init();
+
 	}
 }

@@ -169,13 +169,63 @@ public class ServiceCommande {
 
 	public static void modifierEtatCmd() {
 		System.out.println("Entrez le numero de commande");
-		int ref = Utils.readInt();
+		int nb = Utils.readInt();
 
-		String sql = "select id_statu_commande from commande where numero_commande=?";
-		cmdDao.getResult(sql);
+		String sql = "select id_status_commande from commande where numero_commande=?";
+		int status = cmdDao.getResult(sql, nb);
 
-		listerCmdLibraire();
-		String sql2 = "update commande set id_status_commande =? where reference =?";
-		cmdDao.update(sql);
+		String sql1 = "update commande set id_status_commande =? where numero_commande =?";
+
+		if (status == 0) {
+			System.out.println("Cette commande n'exsite pas");
+		} else if (status == 1) {
+			System.out.println("Modifiez la commande en \n1- Livrer \n0- Retour");
+			int choix = Utils.readInt();
+			switch (choix) {
+			case 1:
+				cmdDao.update(sql1, 2, nb);
+				System.out.println("Votre action est reussie");
+				Utils.readReturn();
+				break;
+			case 0:
+				break;
+			default:
+				System.out.println("Votre saisie n'est pas correcte.");
+				break;
+			}
+		} else if (status == 2 || status == 3) {
+			System.out.println("Vous ne pouvez pas modifier l'etat de commande.");
+		}
+	}
+
+	public static void annulerCmd() {
+		System.out.println("Entrez le numero de commande");
+		int nb = Utils.readInt();
+
+		String sql = "select id_status_commande from commande where numero_commande=?";
+		int status = cmdDao.getResult(sql, nb);
+
+		String sql1 = "update commande set id_status_commande =? where numero_commande =?";
+
+		if (status == 0) {
+			System.out.println("Cette commande n'exsite pas");
+		} else if (status == 1) {
+			System.out.println("Modifiez la commande en \n1- Annuler \n0- Retour");
+			int choix = Utils.readInt();
+			switch (choix) {
+			case 1:
+				cmdDao.update(sql1, 3, nb);
+				System.out.println("Votre action est reussie");
+				Utils.readReturn();
+				break;
+			case 0:
+				break;
+			default:
+				System.out.println("Votre saisie n'est pas correcte.");
+				break;
+			}
+		} else if (status == 2 || status == 3) {
+			System.out.println("Vous ne pouvez pas modifier l'etat de commande.");
+		}
 	}
 }
