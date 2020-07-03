@@ -1,11 +1,11 @@
 package com.utils.input.utilisateur;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
 import com.librairie.model.commande.Adresse;
 import com.librairie.service.commande.ServiceAdresse;
+import com.librairie.utils.Utils;
 
 public class UtilsAdresse {
 	
@@ -44,15 +44,8 @@ public class UtilsAdresse {
 
 	public static int askAdresseNumero() {
 		System.out.println("Quel est le numero de rue de l'editeur ? : ");
-		int reponse = 0;
-		while(true) {
-			try {
-				reponse = Integer.parseInt(sc.nextLine());
-				return reponse;
-			} catch (InputMismatchException | NumberFormatException e) {
-				System.out.println("Entrez un chiffre");
-			}
-		}
+		int reponse = Utils.readInt();
+		return reponse;
 	}
 
 }

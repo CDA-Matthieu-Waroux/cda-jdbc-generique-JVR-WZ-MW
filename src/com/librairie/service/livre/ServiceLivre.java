@@ -56,9 +56,15 @@ public class ServiceLivre {
 		
 		// creation du livre
 		Livre livre = UtilsLivre.createLivre(editeurSelection, auteurSelection);
+		ILivreDao livreDao = new LivreDaoImpl();
+		livreDao.create(livre);
+	}
+	
+	public static void updateLivre() {
+		UtilsLivre.updateLivre();
 	}
 
 	public static void main(String[] args) {
-		createLivre();
+		updateLivre();
 	}
 }

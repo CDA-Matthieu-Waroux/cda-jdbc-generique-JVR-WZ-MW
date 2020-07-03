@@ -11,9 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Livre {
+public class Livre implements Comparable<Livre> {
 
-	private int ref;
 	private int nombrePage;
 	private int prix;
 	private int reference;
@@ -102,5 +101,10 @@ public class Livre {
 		return "---Titre : " + this.titre + "\n" + "   Reference : " + this.reference + "\n" + "   Auteur : "
 				+ this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" + "   Editeur : " + this.editeur + "\n"
 				+ "   Nombre de pages : " + this.nombrePage + "\n" + "   Prix : " + this.prix + "\n";
+	}
+
+	@Override
+	public int compareTo(Livre l) {
+		return Integer.compare(this.reference, l.reference);
 	}
 }
