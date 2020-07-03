@@ -6,11 +6,9 @@ import com.librairie.model.compte.Compte;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Setter
 @Getter
-@ToString
 @NoArgsConstructor
 
 public class Utilisateur extends Personne {
@@ -21,6 +19,12 @@ public class Utilisateur extends Personne {
 			int gradeUtilisateur) {
 		super(nom, prenom, age, id, adresse);
 
+	}
+
+	@Override
+	public String toString() {
+		return "Utilisateur [cp=" + cp + ", nom=" + nom + ", prenom=" + prenom + ", age=" + age + ", id=" + id
+				+ ", adresse=" + adresse + "]";
 	}
 
 }

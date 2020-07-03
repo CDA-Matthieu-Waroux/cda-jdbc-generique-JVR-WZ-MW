@@ -15,7 +15,7 @@ public class ServiceAdresse {
 
 		return pAdresse;
 	}
-	
+
 	public static List<Adresse> getAdresses() {
 		List<Adresse> adresses = dao.readAll();
 		return adresses;

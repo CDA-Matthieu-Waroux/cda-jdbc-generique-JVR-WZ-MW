@@ -124,6 +124,15 @@ public class Menu {
 			case 4:
 
 				break;
+			case 5:
+
+				break;
+			case 6:
+				ServiceUtilisateur.validationCompteValidation();
+				break;
+			case 7:
+				ServiceUtilisateur.suppressionCompteValidation();
+				break;
 
 			case 0:
 				continuer = false;
@@ -144,7 +153,8 @@ public class Menu {
 		System.out.println("3- Ajouter un livre");
 		System.out.println("4- Modifierla quantite d'un livre");
 		System.out.println("5- Supprimer un livre");
-		System.out.println("6- Valider / Supprimer la demande de creation d'un compte");
+		System.out.println("6- Valider la demande de creation d'un compte");
+		System.out.println("7- Supprimer la demande de creation d'un compte");
 		System.out.println("0- Deconnexion");
 	}
 }
