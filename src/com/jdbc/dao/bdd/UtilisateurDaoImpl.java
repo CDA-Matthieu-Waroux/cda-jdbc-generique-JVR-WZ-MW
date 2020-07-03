@@ -74,7 +74,7 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 
 		try {
 			ps = connection.prepareStatement(
-					"select compteutilisateur.login ,compteutilisateur.password,compteutilisateur.id_compte , typecompte.libele \r\n"
+					"select compteutilisateur.login ,compteutilisateur.password,compteutilisateur.id_compte , typecompte.libele_type_compte \r\n"
 							+ "from compteutilisateur \r\n" + "natural join typecompte \r\n" + "where login =?;");
 
 			ps.setString(1, pObjet.getCp().getLogin());
@@ -85,9 +85,9 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 				compte.setPassword(rs.getString("password"));
 				compte.setIdCompte(rs.getInt("id_compte"));
 
-				if (rs.getString("libele").equalsIgnoreCase("Client")) {
+				if (rs.getString("libele_type_compte").equalsIgnoreCase("Client")) {
 					compte.setType(TypeCompte.CLIENT);
-				} else if (rs.getString("libele").equalsIgnoreCase("Libraire")) {
+				} else if (rs.getString("libele_type_compte").equalsIgnoreCase("Libraire")) {
 					compte.setType(TypeCompte.LIBRAIRE);
 				}
 

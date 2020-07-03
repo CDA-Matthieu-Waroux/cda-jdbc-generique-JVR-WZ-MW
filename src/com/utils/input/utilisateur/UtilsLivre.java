@@ -19,7 +19,7 @@ public class UtilsLivre {
 		int prix = askPrix();
 		int quantitee = askQuantitee();
 		String titre = askTitreLivre();
-		return new Livre(ref, nombrePage, prix, quantitee, titre, auteurSelection, editeurSelection);
+		return new Livre(titre, auteurSelection, nombrePage, editeurSelection, prix, ref, quantitee);
 	}
 
 	private static String askTitreLivre() {
