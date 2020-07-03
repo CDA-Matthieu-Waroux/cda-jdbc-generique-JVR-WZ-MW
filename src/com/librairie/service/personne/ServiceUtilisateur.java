@@ -1,23 +1,30 @@
 package com.librairie.service.personne;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.jdbc.dao.IAdresseDao;
 import com.jdbc.dao.IUtilisateurDao;
+import com.jdbc.dao.bdd.AdresseDaoImpl;
 import com.jdbc.dao.bdd.UtilisateurDaoImpl;
 import com.librairie.model.commande.Adresse;
 import com.librairie.model.compte.Compte;
 import com.librairie.model.compte.TypeCompte;
 import com.librairie.model.personne.Utilisateur;
+import com.librairie.service.commande.ServiceAdresse;
 import com.librairie.service.compte.ServiceCompte;
 import com.librairie.utils.Utils;
+import com.utils.input.utilisateur.UtilsAdresse;
 
 public class ServiceUtilisateur {
 	private static Utilisateur vUtilisateur = new Utilisateur();
 	private static Scanner sc = new Scanner(System.in);
 	private static Compte vCompte = new Compte();
 	private static Adresse vAdresse = new Adresse();
-	private static IUtilisateurDao dao = new UtilisateurDaoImpl();
+	private static IUtilisateurDao daoUtilisateur = new UtilisateurDaoImpl();
 	private static int idCompte = 0;
+	private static List<Utilisateur> listeUtilisateurs;
+	private static IAdresseDao daoAdresse = new AdresseDaoImpl();
 
 	public static Utilisateur connection() {
 
@@ -28,14 +35,14 @@ public class ServiceUtilisateur {
 		vUtilisateur = new Utilisateur();
 		vUtilisateur.setCp(vCompte);
 
-		vUtilisateur = dao.getByLogin(vUtilisateur);
+		vUtilisateur = daoUtilisateur.getByLogin(vUtilisateur);
 
 		if (vUtilisateur != null) {
 			System.out.println("Veuillez saisir votre mot de passe");
 			tempo = sc.nextLine();
 
 			if (vUtilisateur.getCp().getPassword().equals(tempo)) {
-				System.out.println("Connexion reussis !");
+				System.out.println(String.format("Bienvenue %s %s", vUtilisateur.getNom(), vUtilisateur.getPrenom()));
 				idCompte = vUtilisateur.getCp().getIdCompte();
 			} else {
 				vUtilisateur = null;
@@ -44,7 +51,7 @@ public class ServiceUtilisateur {
 
 		} else {
 			vUtilisateur = null;
-			System.out.println("Erreur compte inconnus !");
+			System.out.println("Erreur , le login n'hesite pas  !");
 		}
 		return vUtilisateur;
 
@@ -65,21 +72,8 @@ public class ServiceUtilisateur {
 		System.out.println("Veuillez saisir votre age");
 		tempo2 = sc.nextByte();
 		vUtilisateur.setAge(tempo3);
-		System.out.println("Veuillez saisir votre n° de rue");
-		tempo2 = Utils.readInt();
-		vAdresse.setNumero(tempo2);
-		System.out.println("Veuillez saisir votre rue");
-		tempo = sc.nextLine();
-		vAdresse.setRue(tempo);
-		System.out.println("Veuillez saisir votre ville");
-		tempo = sc.nextLine();
-		vAdresse.setVille(tempo);
-		System.out.println("Veuillez saisir votre code postal");
-		tempo = sc.nextLine();
-		vAdresse.setCodePostal(tempo);
-		System.out.println("Veuillez saisir votre pays");
-		tempo = sc.nextLine();
-		vAdresse.setPays(tempo);
+		vAdresse = UtilsAdresse.askAdresse();
+		sc.nextLine();
 		while (vVerif) {
 			System.out.println("Veuillez saisir votre login");
 			tempo = sc.nextLine();
@@ -105,13 +99,52 @@ public class ServiceUtilisateur {
 
 		vUtilisateur.setCp(vCompte);
 		vUtilisateur.setAdresse(vAdresse);
-		dao.createDemandeCompte(vUtilisateur);
+		daoUtilisateur.createDemandeCompte(vUtilisateur);
 		System.out.println(
 				"Votre demande de création de compte a bien été pris en compte !\n Veuillez attendre la confirmation du libraire pour vous connecter");
 	}
 
 	public static int getIdCompte() {
 		return idCompte;
+	}
+
+	public static void validationCompteValidation() {
+		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
+		afficherListe(listeUtilisateurs);
+		System.out.println("Selectionnez l'index à valider");
+		int i = Utils.readInt();
+		vUtilisateur = listeUtilisateurs.get(i);
+		vAdresse = vUtilisateur.getAdresse();
+		daoUtilisateur.create(vUtilisateur);
+		if (ServiceAdresse.verifAdresse(vAdresse) == null) {
+			daoAdresse.create(vAdresse);
+			daoAdresse.LiaisonAdresse();
+		} else {
+			vAdresse = ServiceAdresse.verifAdresse(vAdresse);
+			daoAdresse.LiaisonAdresse(vAdresse);
+		}
+
+		System.out.println("Le compte a bien été validé!");
+		daoUtilisateur.deleteCompteValidation(vUtilisateur);
+
+	}
+
+	public static void suppressionCompteValidation() {
+		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
+		afficherListe(listeUtilisateurs);
+		System.out.println("Selectionnez l'index à supprimer");
+		int i = Utils.readInt();
+		vUtilisateur = listeUtilisateurs.get(i);
+		daoUtilisateur.deleteCompteValidation(vUtilisateur);
+		System.out.println("Demande bien supprimer");
+
+	}
+
+	private static void afficherListe(List<Utilisateur> list) {
+
+		for (int i = 0; i < list.size(); i++) {
+			System.out.println("index :" + i + " " + list.get(i));
+		}
 	}
 
 }
