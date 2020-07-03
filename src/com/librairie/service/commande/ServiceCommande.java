@@ -1,8 +1,10 @@
 package com.librairie.service.commande;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.jdbc.dao.bdd.CommandeDaoImpl;
+import com.librairie.model.commande.Commande;
 import com.librairie.model.commande.StatusCommande;
 import com.librairie.model.livre.Livre;
 import com.librairie.service.personne.ServiceUtilisateur;
@@ -134,4 +136,13 @@ public class ServiceCommande {
 		System.out.println("0- Retour");
 	}
 
+	public static void listerCmdLibraire() {
+		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
+		List<Commande> list = cmdDao.readAll();
+
+		for (Commande c : list) {
+			System.out.println(c);
+		}
+		Utils.readReturn();
+	}
 }
