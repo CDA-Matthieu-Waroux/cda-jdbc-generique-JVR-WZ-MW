@@ -1,6 +1,10 @@
 package com.librairie.service.commande;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.jdbc.dao.bdd.CommandeDaoImpl;
+import com.librairie.model.commande.Commande;
 import com.librairie.model.commande.StatusCommande;
 import com.librairie.model.livre.Livre;
 import com.librairie.service.personne.ServiceUtilisateur;
@@ -13,25 +17,29 @@ import lombok.Setter;
 @Setter
 public class ServiceCommande {
 
+	static CommandeDaoImpl cmdDao = new CommandeDaoImpl();
 	static byte status;
 	static int id;
 	static int lastId;
+	static List<Commande> list;
 
-	public static void commanderLivres() {
-		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
+	public static void creerCmd() {
+
+		String sql = "INSERT INTO commande(id_compte, id_status_commande,date_commande) values (?,?,?)";
+		status = StatusCommande.ENCOURS.getNumero();
+		id = ServiceUtilisateur.getIdCompte();
+		cmdDao.update(sql, id, status, LocalDateTime.now().plusHours(2));
+
+		String sql1 = "SELECT LAST_INSERT_ID()";
+		lastId = cmdDao.getResult(sql1);
+	}
+
+	public static void commanderLivre() {
 		System.out.println("Vous pouvez commencer a commander des livres.");
 
 		boolean continuer = true;
 		int choix;
 		int choix1;
-
-		String sql = "INSERT INTO commande(id_compte, id_status_commande) values (?,?)";
-		status = StatusCommande.ENCOURS.getNumero();
-		id = ServiceUtilisateur.getIdCompte();
-		cmdDao.update(sql, id, status);
-
-		String sql1 = "SELECT LAST_INSERT_ID()";
-		lastId = cmdDao.getResult(sql1);
 
 		while (continuer) {
 			menu();
@@ -107,9 +115,14 @@ public class ServiceCommande {
 				}
 				break;
 			case 0:
-				String sql7 = "delete from commande where numero_commande=?";
-				cmdDao.update(sql7, lastId);
-				continuer = false;
+				String sql9 = "select count(reference) from composer where numero_commande =? ";
+				if (cmdDao.getResult(sql9, lastId) != 0) {
+					continuer = false;
+				} else {
+					String sql7 = "delete from commande where numero_commande=?";
+					cmdDao.update(sql7, lastId);
+					continuer = false;
+				}
 				break;
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");
@@ -123,4 +136,46 @@ public class ServiceCommande {
 		System.out.println("0- Retour");
 	}
 
+	public static void listerCmdLibraire() {
+		String sql = "select commande.numero_commande ,commande.date_commande,sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
+				+ "from composer\n" + "natural join  commande\n"
+				+ "inner join livre on livre.reference =composer.reference\n"
+				+ "inner join compteutilisateur on compteutilisateur.id_compte =commande.id_compte\n"
+				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
+				+ "group by numero_commande;";
+		list = cmdDao.readAll(sql);
+
+		for (Commande c : list) {
+			System.out.println(c);
+		}
+		Utils.readReturn();
+	}
+
+	public static void listerCmdClient() {
+		String sql = "select commande.numero_commande, commande.date_commande, sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
+				+ "from composer\n" + "natural join  commande\n"
+				+ "inner join livre on livre.reference =composer.reference\n"
+				+ "inner join compteutilisateur on compteutilisateur.id_compte =?\n"
+				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
+				+ "group by numero_commande;";
+
+		List<Commande> list = cmdDao.readAll(sql, ServiceUtilisateur.getIdCompte());
+
+		for (Commande c : list) {
+			System.out.println(c);
+		}
+		Utils.readReturn();
+	}
+
+	public static void modifierEtatCmd() {
+		System.out.println("Entrez le numero de commande");
+		int ref = Utils.readInt();
+
+		String sql = "select id_statu_commande from commande where numero_commande=?";
+		cmdDao.getResult(sql);
+
+		listerCmdLibraire();
+		String sql2 = "update commande set id_status_commande =? where reference =?";
+		cmdDao.update(sql);
+	}
 }

@@ -56,7 +56,7 @@ public class UtilsAuteur {
 	}
 
 	public static char askExistanceAuteur() {
-		System.out.println("L'auteur du livre existe-t-il déjà dans la base de donnée? : o/n");
+		System.out.println("L'auteur du livre existe-t-il déjà dans la base de donnée? : Y / N");
 		return Utils.readConfirmSelection();
 	}
 	
@@ -69,5 +69,4 @@ public class UtilsAuteur {
 		System.out.println("Vouls-vous éditer l'auteur ? : ");
 		return Utils.readConfirmSelection();
 	}
-	
 }

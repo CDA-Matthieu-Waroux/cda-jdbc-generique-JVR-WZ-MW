@@ -28,13 +28,13 @@ public class UtilsEditeur {
 	}
 
 	public static char askExistanceEditeur() {
-		System.out.println("L'éditeur du livre existe-t-il déjà la base de données ? : o/n");
+		System.out.println("L'éditeur du livre existe-t-il déjà la base de données ? : Y / N");
 		while(sc.hasNext()) {
 			char reponse = sc.next().charAt(0);
-		    if(reponse == 'o' || reponse == 'n') {
+		    if(reponse == 'Y' || reponse == 'N') {
 		    	return reponse;
 		    } else {
-		    	System.out.println("Entrez 'o' pour oui ou 'n' pour non");
+		    	System.out.println("Entrez 'Y' pour oui ou 'N' pour non");
 		    }
 		}
 		return 'n';

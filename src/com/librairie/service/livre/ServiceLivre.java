@@ -63,8 +63,12 @@ public class ServiceLivre {
 	public static void updateLivre() {
 		UtilsLivre.updateLivre();
 	}
+	
+	public static void supprimerLivre() {
+		UtilsLivre.deleteLivre();
+	}
 
-	public static void main(String[] args) {
-		updateLivre();
+	public static void updateQuantiteLivre() {
+		UtilsLivre.UpdateQuantiteLivre();
 	}
 }
