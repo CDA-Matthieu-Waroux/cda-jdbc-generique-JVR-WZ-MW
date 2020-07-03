@@ -73,7 +73,6 @@ public class ServiceUtilisateur {
 		tempo3 = Utils.readByte();
 		vUtilisateur.setAge(tempo3);
 		vAdresse = UtilsAdresse.askAdresse();
-		sc.nextLine();
 		while (vVerif) {
 			System.out.println("Veuillez saisir votre login");
 			tempo = sc.nextLine();
@@ -111,33 +110,54 @@ public class ServiceUtilisateur {
 
 	public static void validationCompteValidation() {
 		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
-		afficherListe(listeUtilisateurs);
-		System.out.println("Selectionnez l'index à valider");
-		int i = Utils.readInt();
-		vUtilisateur = listeUtilisateurs.get(i);
-		vAdresse = vUtilisateur.getAdresse();
-		daoUtilisateur.create(vUtilisateur);
-		if (ServiceAdresse.verifAdresse(vAdresse) == null) {
-			daoAdresse.create(vAdresse);
-			daoAdresse.LiaisonAdresse();
-		} else {
-			vAdresse = ServiceAdresse.verifAdresse(vAdresse);
-			daoAdresse.LiaisonAdresse(vAdresse);
-		}
+		if (!listeUtilisateurs.isEmpty()) {
+			afficherListe(listeUtilisateurs);
 
-		System.out.println("Le compte a bien été validé!");
-		daoUtilisateur.deleteCompteValidation(vUtilisateur);
+			int i = 0;
+			do {
+				System.out.println("Selectionnez l'index à valider");
+				i = Utils.readInt();
+			}
+
+			while (i < 0 | i > listeUtilisateurs.size());
+
+			vUtilisateur = listeUtilisateurs.get(i);
+			vAdresse = vUtilisateur.getAdresse();
+			daoUtilisateur.create(vUtilisateur);
+			if (ServiceAdresse.verifAdresse(vAdresse) == null) {
+				daoAdresse.create(vAdresse);
+				daoAdresse.LiaisonAdresse();
+			} else {
+				vAdresse = ServiceAdresse.verifAdresse(vAdresse);
+				daoAdresse.LiaisonAdresse(vAdresse);
+			}
+
+			System.out.println("Le compte a bien été validé!");
+			daoUtilisateur.deleteCompteValidation(vUtilisateur);
+		} else {
+			System.out.println("Aucune demande à traiter");
+		}
 
 	}
 
 	public static void suppressionCompteValidation() {
 		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
-		afficherListe(listeUtilisateurs);
-		System.out.println("Selectionnez l'index à supprimer");
-		int i = Utils.readInt();
-		vUtilisateur = listeUtilisateurs.get(i);
-		daoUtilisateur.deleteCompteValidation(vUtilisateur);
-		System.out.println("Demande bien supprimer");
+		if (!listeUtilisateurs.isEmpty()) {
+			afficherListe(listeUtilisateurs);
+
+			int i = 0;
+			do {
+				System.out.println("Selectionnez l'index à supprimer");
+				i = Utils.readInt();
+			}
+
+			while (i < 0 | i > listeUtilisateurs.size());
+			vUtilisateur = listeUtilisateurs.get(i);
+			daoUtilisateur.deleteCompteValidation(vUtilisateur);
+			System.out.println("Demande bien supprimer");
+		} else {
+			System.out.println("Aucune demande à traiter");
+		}
 
 	}
 
