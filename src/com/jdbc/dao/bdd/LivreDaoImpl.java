@@ -118,10 +118,13 @@ public class LivreDaoImpl implements ILivreDao {
 	}
 	
 	public void updateQuantitee(Livre pObject) {
-		String query = "DELETE FROM livre WHERE livre.reference = (?)";
+		String query = "UPDATE livre " + 
+					   "SET livre.QUANTITEE = (?) " + 
+					   "WHERE livre.REFERENCE = (?)";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 
-			statement.setInt(1, pObject.getReference());
+			statement.setInt(1, pObject.getQuantitee());
+			statement.setInt(2, pObject.getReference());
 			statement.executeUpdate();
 			
 		} catch (SQLException e) {

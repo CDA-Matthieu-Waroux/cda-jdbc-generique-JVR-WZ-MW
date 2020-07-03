@@ -30,18 +30,15 @@ public class Menu {
 				}
 
 				break;
-
 			case 2:
 				ServiceLivre.readLine();
 				break;
 			case 3:
 				ServiceUtilisateur.inscription();
 				break;
-
 			case 0:
 				continuer = false;
 				break;
-
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");
 				Utils.readReturn();
@@ -70,23 +67,17 @@ public class Menu {
 				ServiceCommande.creerCmd();
 				ServiceCommande.commanderLivre();
 				break;
-
 			case 2:
 				ServiceCommande.listerCmdClient();
 				break;
-
 			case 3:
 				ServiceCommande.annulerCmd();
 				break;
-
 			case 4:
-
 				break;
-
 			case 0:
 				continuer = false;
 				break;
-
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");
 				Utils.readReturn();
@@ -125,7 +116,6 @@ public class Menu {
 
 			case 4:
 				ServiceLivre.updateQuantiteLivre();
-//				ServiceLivre.updateLivre();
 				break;
 			case 5:
 				ServiceLivre.supprimerLivre();
@@ -136,11 +126,9 @@ public class Menu {
 			case 7:
 				ServiceUtilisateur.suppressionCompteValidation();
 				break;
-
 			case 0:
 				continuer = false;
 				break;
-
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");
 				Utils.readReturn();
