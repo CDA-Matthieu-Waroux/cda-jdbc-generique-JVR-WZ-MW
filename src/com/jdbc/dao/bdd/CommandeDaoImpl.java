@@ -28,12 +28,12 @@ public class CommandeDaoImpl extends ICommandeDao {
 		}
 	}
 
-	@Override
-	public List<Commande> readAll() {
+	public List<Commande> readAll(String sql, Object... args) {
 		List<Commande> commandes = new ArrayList<>();
-//		try (Statement statement = connection.createStatement();
+//		try {
+//				preparedStatement = connection.prepareStatement(sql);
 //				ResultSet result = statement
-//						.executeQuery("SELECT * FROM commande INNER JOIN comprendre ON numeroCmd")) {
+//						.executeQuery()) {
 //			Commande tempCommande = new Commande();
 //			while (result.next()) {
 //				tempCommande.setRef(result.getInt("reference"));

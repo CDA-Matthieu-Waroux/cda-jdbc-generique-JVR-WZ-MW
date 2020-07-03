@@ -1,5 +1,7 @@
 package com.librairie.service.commande;
 
+import java.time.LocalDateTime;
+
 import com.jdbc.dao.bdd.CommandeDaoImpl;
 import com.librairie.model.commande.StatusCommande;
 import com.librairie.model.livre.Livre;
@@ -17,21 +19,25 @@ public class ServiceCommande {
 	static int id;
 	static int lastId;
 
-	public static void commanderLivres() {
+	public static void creerCmd() {
+
+		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
+		String sql = "INSERT INTO commande(id_compte, id_status_commande,date_commande) values (?,?,?)";
+		status = StatusCommande.ENCOURS.getNumero();
+		id = ServiceUtilisateur.getIdCompte();
+		cmdDao.update(sql, id, status, LocalDateTime.now().plusHours(2));
+
+		String sql1 = "SELECT LAST_INSERT_ID()";
+		lastId = cmdDao.getResult(sql1);
+	}
+
+	public static void commanderLivre() {
 		CommandeDaoImpl cmdDao = new CommandeDaoImpl();
 		System.out.println("Vous pouvez commencer a commander des livres.");
 
 		boolean continuer = true;
 		int choix;
 		int choix1;
-
-		String sql = "INSERT INTO commande(id_compte, id_status_commande) values (?,?)";
-		status = StatusCommande.ENCOURS.getNumero();
-		id = ServiceUtilisateur.getIdCompte();
-		cmdDao.update(sql, id, status);
-
-		String sql1 = "SELECT LAST_INSERT_ID()";
-		lastId = cmdDao.getResult(sql1);
 
 		while (continuer) {
 			menu();
@@ -107,9 +113,14 @@ public class ServiceCommande {
 				}
 				break;
 			case 0:
-				String sql7 = "delete from commande where numero_commande=?";
-				cmdDao.update(sql7, lastId);
-				continuer = false;
+				String sql9 = "select count(reference) from composer where numero_commande =? ";
+				if (cmdDao.getResult(sql9, lastId) != 0) {
+					break;
+				} else {
+					String sql7 = "delete from commande where numero_commande=?";
+					cmdDao.update(sql7, lastId);
+					continuer = false;
+				}
 				break;
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");

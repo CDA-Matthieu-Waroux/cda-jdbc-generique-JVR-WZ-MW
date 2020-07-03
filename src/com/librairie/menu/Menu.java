@@ -67,7 +67,8 @@ public class Menu {
 			choix = Utils.readInt();
 			switch (choix) {
 			case 1:
-				ServiceCommande.commanderLivres();
+				ServiceCommande.creerCmd();
+				ServiceCommande.commanderLivre();
 				break;
 
 			case 2:

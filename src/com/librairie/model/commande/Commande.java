@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Commande {
 
-	private int numeroCmd;
+	private int numero_commande;
 	private Adresse adresse;
 	StatusCommande status;
 
