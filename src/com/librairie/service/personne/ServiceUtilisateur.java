@@ -13,6 +13,8 @@ import com.librairie.model.compte.TypeCompte;
 import com.librairie.model.personne.Utilisateur;
 import com.librairie.service.commande.ServiceAdresse;
 import com.librairie.service.compte.ServiceCompte;
+import com.librairie.utils.BCrypt;
+import com.librairie.utils.Hashage;
 import com.librairie.utils.Utils;
 import com.utils.input.utilisateur.UtilsAdresse;
 
@@ -41,7 +43,7 @@ public class ServiceUtilisateur {
 			System.out.println("Veuillez saisir votre mot de passe");
 			tempo = sc.nextLine();
 
-			if (vUtilisateur.getCp().getPassword().equals(tempo)) {
+			if (BCrypt.checkpw(tempo, vUtilisateur.getCp().getPassword())) {
 				System.out.println(String.format("Bienvenue %s %s", vUtilisateur.getNom(), vUtilisateur.getPrenom()));
 				idCompte = vUtilisateur.getCp().getIdCompte();
 			} else {
@@ -59,18 +61,16 @@ public class ServiceUtilisateur {
 
 	public static void inscription() {
 		boolean vVerif = true;
-		int tempo2 = 0;
 		String tempo = "";
 		byte tempo3 = 2;
 		System.out.println("Veuillez saisir votre prénom");
-		tempo = sc.nextLine();
-
+		tempo = sc.nextLine().toUpperCase();
 		vUtilisateur.setPrenom(tempo);
 		System.out.println("Veuillez saisir votre nom");
-		tempo = sc.nextLine();
+		tempo = sc.nextLine().toUpperCase();
 		vUtilisateur.setNom(tempo);
 		System.out.println("Veuillez saisir votre age");
-		tempo2 = sc.nextByte();
+		tempo3 = Utils.readByte();
 		vUtilisateur.setAge(tempo3);
 		vAdresse = UtilsAdresse.askAdresse();
 		sc.nextLine();
@@ -88,6 +88,7 @@ public class ServiceUtilisateur {
 
 		System.out.println("Veuillez saisir votre mot de passe");
 		tempo = sc.nextLine();
+		tempo = Hashage.hash(tempo);
 		vCompte.setPassword(tempo);
 		System.out.println("Compte Libraire ? (Y/N)");
 		char c = Utils.readConfirmSelection();
