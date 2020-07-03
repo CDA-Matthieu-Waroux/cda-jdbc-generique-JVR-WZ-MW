@@ -14,6 +14,7 @@ import com.librairie.utils.Utils;
 public class UtilsEditeur {
 	
 	private static Scanner sc = new Scanner(System.in);
+	private static IAdresseDao adresseDao = new AdresseDaoImpl();
 
 	public static Editeur createEditeur() {
 		List<Editeur> editeurs = ServiceEditeur.getEditeurs();
@@ -21,7 +22,7 @@ public class UtilsEditeur {
 		System.out.println("Le prochain editeur aura l'id n : " + idEditeur);
 		String nomEditieur = askNomEditeur();
 		Adresse adresse = UtilsAdresse.askAdresse();
-		IAdresseDao adresseDao = new AdresseDaoImpl();
+		
 		adresseDao.create(adresse);
 		System.out.println("Adresse créée");
 		return new Editeur(idEditeur, nomEditieur, adresse);
