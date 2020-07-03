@@ -13,6 +13,7 @@ import com.librairie.utils.Utils;
 
 public class UtilsLivre {
 	private static Scanner sc = new Scanner(System.in);
+	private static ILivreDao livreDao = new LivreDaoImpl();
 
 	public static Livre createLivre(Editeur editeurSelection, Auteur auteurSelection) {
 		int ref = askRef();
@@ -26,7 +27,6 @@ public class UtilsLivre {
 	public static void updateLivre() {
 		Livre livreToUpdate = selectkRefLivre();
 		System.out.println("livre selectionné = " + livreToUpdate);
-		ILivreDao livreDao = new LivreDaoImpl();
 		int nombrePage = askNombrePage();
 		int prix = askPrix();
 		int quantitee = askQuantitee();
@@ -55,39 +55,55 @@ public class UtilsLivre {
 	public static void deleteLivre() {
 		Livre livreToDelete = selectkRefLivre();
 		System.out.println("livre selectionné = " + livreToDelete);
-		ILivreDao livreDao = new LivreDaoImpl();
 		livreDao.delete(livreToDelete);
 		System.out.println("Livre supprimé");
 	}
 
 	private static String askTitreLivre() {
 		System.out.println("Quel est le titre du livre ? : ");
-		return sc.nextLine();
+		String answer = sc.nextLine();
+		return answer;
 	}
 
 	private static int askQuantitee() {
 		System.out.println("Quel est la quantitée du livre en stock ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 1) {
+			System.out.println("Un chiffre négatif n'est pas valable");
+			System.out.println("Entrer la quantitée : ");
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askPrix() {
 		System.out.println("Quel est le prix du livre ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 0) {
+			System.out.println("Prix negatif non valable");
+			System.out.println("Quel est le prix : ");
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askNombrePage() {
 		System.out.println("Combien de page contient le livre ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 1) {
+			System.out.println("Entrer un nombre de page suppérieur à 1");
+			System.out.println("Quel est le nombre de page? : ");
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askRef() {
-		ILivreDao livreDao = new LivreDaoImpl();
 		List<Livre> livres = livreDao.readAll();
 		return livres.size() + 1;
 	}
 	
 	private static Livre selectkRefLivre() {
-		ILivreDao livreDao = new LivreDaoImpl();
 		List<Livre> livres = livreDao.readAll();
 		ServiceLivre.readLine();
 		System.out.println("Quel référence souhaitez-vous selectionner ? :");
@@ -103,10 +119,10 @@ public class UtilsLivre {
 	public static void UpdateQuantiteLivre() {
 		Livre livreToUpdate = selectkRefLivre();
 		System.out.println("livre selectionné = " + livreToUpdate);
-		ILivreDao livreDao = new LivreDaoImpl();
-		int prix = askPrix();
-		Livre livreUpdate = new Livre(livreToUpdate.getNombrePage(), prix, livreToUpdate.getRef(), livreToUpdate.getPrix(), livreToUpdate.getTitre(), 
-				livreToUpdate.getAuteur(), livreToUpdate.getEditeur());
+		int quantitee = askQuantitee();
+		Livre livreUpdate = new Livre(livreToUpdate.getTitre(), livreToUpdate.getAuteur(), livreToUpdate.getNombrePage(),
+				livreToUpdate.getEditeur(), livreToUpdate.getPrix(), livreToUpdate.getReference(), quantitee);
 		livreDao.updateQuantitee(livreUpdate);
+		System.out.println("Quantitée mis à jour");
 	}
 }

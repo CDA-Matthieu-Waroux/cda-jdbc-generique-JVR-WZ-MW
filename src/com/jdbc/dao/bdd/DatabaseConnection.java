@@ -11,7 +11,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 public class DatabaseConnection {
 
 	// 1 mariadb - 2 mysql
-	private static int choixSgbd = 2;
+	private static int choixSgbd = 1;
 	private static DatabaseConnection databaseconnection;
 	private BasicDataSource ds;
 	private Properties properties = new Properties();

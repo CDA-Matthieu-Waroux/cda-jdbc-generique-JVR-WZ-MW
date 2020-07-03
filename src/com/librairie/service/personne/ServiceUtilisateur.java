@@ -113,7 +113,14 @@ public class ServiceUtilisateur {
 		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
 		afficherListe(listeUtilisateurs);
 		System.out.println("Selectionnez l'index à valider");
-		int i = Utils.readInt();
+		int i = 0;
+		do {
+			System.out.println("Selectionnez l'index à supprimer");
+			i = Utils.readInt();
+		}
+
+		while (i < 0 | i > listeUtilisateurs.size());
+
 		vUtilisateur = listeUtilisateurs.get(i);
 		vAdresse = vUtilisateur.getAdresse();
 		daoUtilisateur.create(vUtilisateur);
@@ -133,8 +140,14 @@ public class ServiceUtilisateur {
 	public static void suppressionCompteValidation() {
 		listeUtilisateurs = daoUtilisateur.getAllDemandeCompte();
 		afficherListe(listeUtilisateurs);
-		System.out.println("Selectionnez l'index à supprimer");
-		int i = Utils.readInt();
+
+		int i = 0;
+		do {
+			System.out.println("Selectionnez l'index à supprimer");
+			i = Utils.readInt();
+		}
+
+		while (i < 0 | i > listeUtilisateurs.size());
 		vUtilisateur = listeUtilisateurs.get(i);
 		daoUtilisateur.deleteCompteValidation(vUtilisateur);
 		System.out.println("Demande bien supprimer");

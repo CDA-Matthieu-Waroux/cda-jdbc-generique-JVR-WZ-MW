@@ -19,9 +19,11 @@ import com.utils.input.utilisateur.UtilsLivre;
 public class ServiceLivre {
 
 	public static Scanner sc = new Scanner(System.in);
+	private static ILivreDao livreDao = new LivreDaoImpl();
+	private static IEditeurDao editeurDao = new EditeurDaoImpl();
+	private static IAuteurDao auteurDao = new AuteurDaoImpl();
 
 	public static void readLine() {
-		ILivreDao livreDao = new LivreDaoImpl();
 		List<Livre> livres = livreDao.readAll();
 		for (Livre livre : livres) {
 			System.out.println(livre);
@@ -33,11 +35,10 @@ public class ServiceLivre {
 		char editeurExiste = UtilsEditeur.askExistanceEditeur();
 		Editeur editeurSelection = null;
 
-		if (editeurExiste == 'o') {
+		if (editeurExiste == 'Y') {
 			editeurSelection = UtilsEditeur.choixEditeur();
-		} else if (editeurExiste == 'n') {
+		} else if (editeurExiste == 'N') {
 			editeurSelection = UtilsEditeur.createEditeur();
-			IEditeurDao editeurDao = new EditeurDaoImpl();
 			editeurDao.create(editeurSelection);
 		}
 		System.out.println("Editeur : " + editeurSelection);
@@ -45,18 +46,16 @@ public class ServiceLivre {
 		// selection de l'auteur
 		char auteurExiste = UtilsAuteur.askExistanceAuteur();
 		Auteur auteurSelection = null;
-		if (auteurExiste == 'o') {
+		if (auteurExiste == 'Y') {
 			auteurSelection = UtilsAuteur.choixAuteur();
-		} else if (auteurExiste == 'n') {
+		} else if (auteurExiste == 'N') {
 			auteurSelection = UtilsAuteur.createAuteur();
-			IAuteurDao auteurDao = new AuteurDaoImpl();
 			auteurDao.create(auteurSelection);
 		}
 		System.out.println("Auteur : " + auteurSelection);
 		
 		// creation du livre
 		Livre livre = UtilsLivre.createLivre(editeurSelection, auteurSelection);
-		ILivreDao livreDao = new LivreDaoImpl();
 		livreDao.create(livre);
 	}
 	
