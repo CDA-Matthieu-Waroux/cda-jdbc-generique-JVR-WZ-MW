@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.jdbc.dao.ILivreDao;
@@ -47,7 +48,7 @@ public class LivreDaoImpl implements ILivreDao {
 					   "FROM LIVRE AS l " + 
 					   "JOIN AUTEUR A ON l.ID_AUTEUR = a.ID_AUTEUR " + 
 					   "JOIN EDITEUR E ON l.ID_EDITEUR = e.ID_EDITEUR " + 
-					   "JOIN ADRESSE Ad on e.ID_ADRESSE = ad.ID_ADRESSE";
+					   "JOIN ADRESSE Ad on e.ID_ADRESSE = ad.ID_ADRESSE ";
 		
 		List<Livre> livres = new ArrayList<>();
 		try (Statement statement = connection.createStatement();
@@ -86,12 +87,34 @@ public class LivreDaoImpl implements ILivreDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		Collections.sort(livres);
 		return livres;
 	}
 
 	@Override
 	public void update(Livre pObject) {
+		String query = "UPDATE livre set "
+					 + "livre.NOMBREPAGE = (?), " // 1
+					 + "livre.PRIX = (?), " // 2
+					 + "livre.TITRE = (?), " // 3
+					 + "livre.QUANTITEE = (?), " // 4
+					 + "livre.ID_AUTEUR = (?), " // 5
+					 + "livre.ID_EDITEUR = (?) " // 6
+					 + "where livre.REFERENCE = (?)"; // 7
+		try (PreparedStatement statement = connection.prepareStatement(query)) {
 
+			statement.setInt(1, pObject.getNombrePage());
+			statement.setInt(2, pObject.getPrix());
+			statement.setString(3, pObject.getTitre());
+			statement.setInt(4, pObject.getQuantitee());
+			statement.setInt(5, pObject.getAuteur().getId());
+			statement.setInt(6, pObject.getEditeur().getIdEditeur());
+			statement.setInt(7, pObject.getRef());
+			statement.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

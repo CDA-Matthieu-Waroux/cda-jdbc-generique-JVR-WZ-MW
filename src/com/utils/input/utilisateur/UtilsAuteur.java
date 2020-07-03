@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.auteur.service.ServiceAuteur;
-import com.librairie.model.commande.Adresse;
 import com.librairie.model.personne.Auteur;
+import com.librairie.utils.Utils;
 
 
 public class UtilsAuteur {
@@ -26,7 +26,7 @@ public class UtilsAuteur {
 
 	public static byte askAgeAuteur() {
 		System.out.println("Entrer l'age de l'auteur : ");
-		return sc.nextByte();
+		return Utils.readByte();
 	}
 
 	public static String askNomAuteur() {
@@ -57,29 +57,17 @@ public class UtilsAuteur {
 
 	public static char askExistanceAuteur() {
 		System.out.println("L'auteur du livre existe-t-il déjà dans la base de donnée? : o/n");
-		while(sc.hasNext()) {
-			char reponse = sc.next().charAt(0);
-		    if(reponse == 'o' || reponse == 'n') {
-		    	return reponse;
-		    } else {
-		    	System.out.println("Entrez 'o' pour oui ou 'n' pour non");
-		    }
-		}
-		return 'n';
+		return Utils.readConfirmSelection();
 	}
 	
 	public static int askIdAuteur() {
 		System.out.println("Selectionnez l'id de l'auteur : ");
-		int reponse = 0;
-		while(true) {
-			try {
-				reponse = sc.nextInt();
-				return reponse;
-			} catch (InputMismatchException e) {
-				System.out.println("Selectionner un nombre : ");
-				sc.next();
-			}
-		}
+		return Utils.readInt();
+	}
+
+	public static char askChangeAuteur() {
+		System.out.println("Vouls-vous éditer l'auteur ? : ");
+		return Utils.readConfirmSelection();
 	}
 	
 }

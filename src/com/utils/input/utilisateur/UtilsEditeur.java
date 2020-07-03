@@ -9,6 +9,7 @@ import com.jdbc.dao.bdd.AdresseDaoImpl;
 import com.librairie.model.commande.Adresse;
 import com.librairie.model.personne.Editeur;
 import com.librairie.service.editeur.ServiceEditeur;
+import com.librairie.utils.Utils;
 
 public class UtilsEditeur {
 	
@@ -63,15 +64,11 @@ public class UtilsEditeur {
 	
 	public static int askIdEditeur() {
 		System.out.println("Selectionnez l'id de l'editeur : ");
-		int reponse = 0;
-		while(true) {
-			try {
-				reponse = sc.nextInt();
-				return reponse;
-			} catch (InputMismatchException e) {
-				System.out.println("Selectionner un nombre : ");
-				sc.next();
-			}
-		}
+		return Utils.readInt();
+	}
+
+	public static char askChangeEditeur() {
+		System.out.println("Voulez-vous editer l'editeur ? : ");
+		return Utils.readConfirmSelection();
 	}
 }
