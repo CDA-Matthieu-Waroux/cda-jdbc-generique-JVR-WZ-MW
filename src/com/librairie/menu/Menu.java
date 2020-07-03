@@ -76,7 +76,7 @@ public class Menu {
 				break;
 
 			case 3:
-
+				ServiceCommande.annulerCmd();
 				break;
 
 			case 4:
@@ -117,7 +117,7 @@ public class Menu {
 				break;
 
 			case 2:
-
+				ServiceCommande.modifierEtatCmd();
 				break;
 			case 3:
 				ServiceLivre.createLivre();
