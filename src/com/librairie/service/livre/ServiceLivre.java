@@ -33,9 +33,9 @@ public class ServiceLivre {
 		char editeurExiste = UtilsEditeur.askExistanceEditeur();
 		Editeur editeurSelection = null;
 
-		if (editeurExiste == 'o') {
+		if (editeurExiste == 'Y') {
 			editeurSelection = UtilsEditeur.choixEditeur();
-		} else if (editeurExiste == 'n') {
+		} else if (editeurExiste == 'N') {
 			editeurSelection = UtilsEditeur.createEditeur();
 			IEditeurDao editeurDao = new EditeurDaoImpl();
 			editeurDao.create(editeurSelection);
@@ -45,9 +45,9 @@ public class ServiceLivre {
 		// selection de l'auteur
 		char auteurExiste = UtilsAuteur.askExistanceAuteur();
 		Auteur auteurSelection = null;
-		if (auteurExiste == 'o') {
+		if (auteurExiste == 'Y') {
 			auteurSelection = UtilsAuteur.choixAuteur();
-		} else if (auteurExiste == 'n') {
+		} else if (auteurExiste == 'N') {
 			auteurSelection = UtilsAuteur.createAuteur();
 			IAuteurDao auteurDao = new AuteurDaoImpl();
 			auteurDao.create(auteurSelection);

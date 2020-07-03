@@ -67,17 +67,36 @@ public class UtilsLivre {
 
 	private static int askQuantitee() {
 		System.out.println("Quel est la quantitée du livre en stock ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 1) {
+			System.out.println("Un chiffre négatif n'est pas valable");
+			System.out.println("Entrer la quantitée : ");
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askPrix() {
 		System.out.println("Quel est le prix du livre ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 0) {
+			System.out.println("Prix negatif non valable");
+			System.out.println("Quel est le prix : ");
+			sc.nextLine();
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askNombrePage() {
 		System.out.println("Combien de page contient le livre ? :");
-		return Utils.readInt();
+		int reponse = Utils.readInt();
+		while(reponse < 1) {
+			System.out.println("Entrer un nombre de page suppérieur à 1");
+			System.out.println("Quel est le nombre de page? : ");
+			reponse = Utils.readInt();
+		}
+		return reponse;
 	}
 
 	private static int askRef() {
