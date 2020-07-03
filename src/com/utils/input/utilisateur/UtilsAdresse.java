@@ -28,7 +28,7 @@ public class UtilsAdresse {
 	}
 
 	public static String askPays() {
-		System.out.println("Quel est le pays de  : ");
+		System.out.println("Quel est le pays ? : ");
 		return sc.nextLine();
 	}
 
