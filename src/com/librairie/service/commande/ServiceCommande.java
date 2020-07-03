@@ -21,6 +21,7 @@ public class ServiceCommande {
 	static byte status;
 	static int id;
 	static int lastId;
+	static List<Commande> list;
 
 	public static void creerCmd() {
 
@@ -142,7 +143,7 @@ public class ServiceCommande {
 				+ "inner join compteutilisateur on compteutilisateur.id_compte =commande.id_compte\n"
 				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
 				+ "group by numero_commande;";
-		List<Commande> list = cmdDao.readAll(sql);
+		list = cmdDao.readAll(sql);
 
 		for (Commande c : list) {
 			System.out.println(c);
@@ -164,5 +165,17 @@ public class ServiceCommande {
 			System.out.println(c);
 		}
 		Utils.readReturn();
+	}
+
+	public static void modifierEtatCmd() {
+		System.out.println("Entrez le numero de commande");
+		int ref = Utils.readInt();
+
+		String sql = "select id_statu_commande from commande where numero_commande=?";
+		cmdDao.getResult(sql);
+
+		listerCmdLibraire();
+		String sql2 = "update commande set id_status_commande =? where reference =?";
+		cmdDao.update(sql);
 	}
 }
