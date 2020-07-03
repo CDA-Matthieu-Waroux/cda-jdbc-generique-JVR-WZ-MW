@@ -115,17 +115,18 @@ public class Menu {
 				break;
 
 			case 2:
-
+				
 				break;
 			case 3:
-
+				ServiceLivre.createLivre();
 				break;
 
 			case 4:
-
+				ServiceLivre.updateQuantiteLivre();
+//				ServiceLivre.updateLivre();
 				break;
 			case 5:
-
+				ServiceLivre.supprimerLivre();
 				break;
 			case 6:
 				ServiceUtilisateur.validationCompteValidation();
