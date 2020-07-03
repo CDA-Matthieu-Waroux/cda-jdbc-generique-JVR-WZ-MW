@@ -28,25 +28,33 @@ public class CommandeDaoImpl extends ICommandeDao {
 		}
 	}
 
-	@Override
-	public List<Commande> readAll() {
+	public List<Commande> readAll(String sql, Object... args) {
+
 		List<Commande> commandes = new ArrayList<>();
-//		try (Statement statement = connection.createStatement();
-//				ResultSet result = statement
-//						.executeQuery("SELECT * FROM commande INNER JOIN comprendre ON numeroCmd")) {
-//			Commande tempCommande = new Commande();
-//			while (result.next()) {
-//				tempCommande.setRef(result.getInt("reference"));
-//				tempCommande.setNombrePage(result.getInt("nombrePage"));
-//				tempCommande.setPrix(result.getInt("prix"));
-//				tempCommande.setQuantitee(result.getInt("quantitee"));
-//				tempCommande.setTitre(result.getString("titre"));
-//				commandes.add(tempCommande);
-//			}
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
+		ResultSet resultSet = null;
+
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				preparedStatement.setObject(i + 1, args[i]);
+			}
+
+			resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				Commande tempCommande = new Commande();
+				tempCommande.setNumero_commande(resultSet.getInt("numero_commande"));
+				tempCommande.setDate_commande(resultSet.getTimestamp("date_commande").toString());
+				tempCommande.setPrix_total(resultSet.getBigDecimal("prix_total"));
+				tempCommande.setNom(resultSet.getString("nom"));
+				tempCommande.setPrenom(resultSet.getString("prenom"));
+				tempCommande.setLibele_status_commande(resultSet.getString("libele_status_commande"));
+				commandes.add(tempCommande);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return commandes;
 	}
 
