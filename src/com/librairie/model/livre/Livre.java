@@ -1,29 +1,44 @@
 package com.librairie.model.livre;
 
 import com.librairie.model.personne.Auteur;
+import com.librairie.model.personne.Editeur;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 
 public class Livre {
 
+	private int ref;
+	private int nombrePage;
+	private int prix;
+	private int reference;
+	private int quantitee;
 	private String titre;
 	private Auteur auteur;
-	private int nombrePage;
-	private String editeur;
-	private int prix;
-	private int ref;
-	private int quantitee;
+	private Editeur editeur;
 
-	public Livre() {
-	}
 
-	public Livre(String titre, Auteur auteur, int nombrePage, String editeur, int prix, int ref, int quantitee) {
+	public Livre(String titre, Auteur auteur, int nombrePage, Editeur editeur, int prix, int ref, int quantitee) {
 		super();
 		this.titre = titre;
 		this.auteur = auteur;
 		this.nombrePage = nombrePage;
 		this.editeur = editeur;
 		this.prix = prix;
-		this.ref = ref;
+		this.reference = ref;
 		this.quantitee = quantitee;
+	}
+
+	public Livre(int reference, String titre, int prix) {
+		super();
+		this.reference = reference;
+		this.titre = titre;
+		this.prix = prix;
 	}
 
 	public String getTitre() {
@@ -50,11 +65,11 @@ public class Livre {
 		this.nombrePage = nombrePage;
 	}
 
-	public String getEditeur() {
-		return editeur;
+	public Editeur getEditeur() {
+		return this.editeur;
 	}
 
-	public void setEditeur(String editeur) {
+	public void setEditeur(Editeur editeur) {
 		this.editeur = editeur;
 	}
 
@@ -67,11 +82,11 @@ public class Livre {
 	}
 
 	public int getRef() {
-		return ref;
+		return reference;
 	}
 
 	public void setRef(int ref) {
-		this.ref = ref;
+		this.reference = ref;
 	}
 
 	public int getQuantitee() {
@@ -84,11 +99,8 @@ public class Livre {
 
 	@Override
 	public String toString() {
-		return "---Titre : " + this.titre + "\n" + 
-			   "   Reference : " + this.ref + "\n" + 
-			   "   Auteur : " + this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" +
-			   "   Editeur : " + this.editeur + "\n" + 
-			   "   Nombre de pages : " + this.nombrePage + "\n" + 
-			   "   Prix : " + this.prix + "\n";
+		return "---Titre : " + this.titre + "\n" + "   Reference : " + this.reference + "\n" + "   Auteur : "
+				+ this.auteur.getPrenom() + " " + this.auteur.getNom() + "\n" + "   Editeur : " + this.editeur + "\n"
+				+ "   Nombre de pages : " + this.nombrePage + "\n" + "   Prix : " + this.prix + "\n";
 	}
 }

@@ -1,10 +1,9 @@
 package com.jdbc.dao.bdd;
 
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class CommandeDaoImpl extends ICommandeDao {
 	Connection connection = DatabaseConnection.getInstance().getConnection();
 	PreparedStatement preparedStatement = null;
 
-	public void create(String sql, Object... args) {
+	public void update(String sql, Object... args) {
 		preparedStatement = null;
 		try {
 			preparedStatement = connection.prepareStatement(sql);
@@ -51,32 +50,19 @@ public class CommandeDaoImpl extends ICommandeDao {
 		return commandes;
 	}
 
-	public Livre queryForLivre(String sql, Object... args) {
+	public Livre queryForLivre(String sql, int ref) {
 		ResultSet resultSet = null;
 		try {
 			preparedStatement = connection.prepareStatement(sql);
-
-			for (int i = 0; i < args.length; i++) {
-				preparedStatement.setObject(i + 1, args[i]);
-			}
-
+			preparedStatement.setInt(1, ref);
 			resultSet = preparedStatement.executeQuery();
-			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-
-			int columnCount = resultSetMetaData.getColumnCount();
 
 			if (resultSet.next()) {
-				Livre livre = new Livre();
+				int reference = resultSet.getInt("reference");
+				int prix = resultSet.getInt("prix");
+				String titre = resultSet.getString("titre");
+				Livre livre = new Livre(reference, titre, prix);
 
-				for (int i = 0; i < columnCount; i++) {
-					Object columnValue = resultSet.getObject(i + 1);
-
-					String columnName = resultSetMetaData.getColumnName(i + 1);
-
-					Field field = Livre.class.getDeclaredField(columnName);
-					field.setAccessible(true);
-					field.set(livre, columnValue);
-				}
 				return livre;
 			}
 		} catch (Exception e) {
@@ -84,4 +70,25 @@ public class CommandeDaoImpl extends ICommandeDao {
 		}
 		return null;
 	}
+
+	public int getResult(String sql, Object... args) {
+		int id = 0;
+
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				preparedStatement.setObject(i + 1, args[i]);
+			}
+			ResultSet rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				id = rs.getInt(1);
+				return id;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return id;
+	}
+
 }
