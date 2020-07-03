@@ -9,7 +9,7 @@ public class Auteur extends Personne {
 	}
 	
 	public Auteur(String nom, String prenom, byte age, int id, Adresse adresse) {
-		super();
+		super(nom, prenom, age, id, adresse);
 	}
 	
 	@Override

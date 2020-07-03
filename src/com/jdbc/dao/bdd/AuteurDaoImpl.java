@@ -17,14 +17,12 @@ public class AuteurDaoImpl implements IAuteurDao {
 
 	@Override
 	public void create(Auteur pObject) {
-		
 		String query = "call AddAuteur(?,?,?)";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, pObject.getPrenom());
 			statement.setString(2, pObject.getNom());
 			statement.setByte(3, pObject.getAge());
 			statement.executeUpdate();
-			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -52,12 +50,9 @@ public class AuteurDaoImpl implements IAuteurDao {
 
 	@Override
 	public void update(Auteur pObject) {
-
 	}
 
 	@Override
 	public void delete(Auteur pObject) {
-
 	}
-
 }

@@ -18,11 +18,11 @@ public class EditeurDaoImpl implements IEditeurDao {
 
 	@Override
 	public void create(Editeur pObject) {
-		String query = "INSERT INTO editeur(?,?,?)";
+		String query = "call AddEditor(?,?,?)";
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
-			statement.setInt(1, pObject.getIdEditeur());
-			statement.setString(2, pObject.getNom());
-			statement.setInt(3, pObject.getAdresse().getId());
+			statement.setString(1, pObject.getNom());
+			statement.setInt(2, pObject.getAdresse().getId());
+			statement.setInt(3, pObject.getIdEditeur());
 			statement.executeUpdate();
 			
 		} catch (SQLException e) {
