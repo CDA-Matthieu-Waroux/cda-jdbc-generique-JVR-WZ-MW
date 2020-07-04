@@ -61,7 +61,8 @@ public class UtilsLivre {
 
 	private static String askTitreLivre() {
 		System.out.println("Quel est le titre du livre ? : ");
-		return sc.nextLine();
+		String answer = sc.nextLine();
+		return answer;
 	}
 
 	private static int askQuantitee() {
@@ -81,7 +82,6 @@ public class UtilsLivre {
 		while(reponse < 0) {
 			System.out.println("Prix negatif non valable");
 			System.out.println("Quel est le prix : ");
-			sc.nextLine();
 			reponse = Utils.readInt();
 		}
 		return reponse;

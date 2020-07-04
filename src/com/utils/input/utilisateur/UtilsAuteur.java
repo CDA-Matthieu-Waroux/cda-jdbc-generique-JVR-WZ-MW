@@ -15,7 +15,6 @@ public class UtilsAuteur {
 	
 	public static Auteur createAuteur() {
 		List<Auteur> auteurs = ServiceAuteur.getAuteurs();
-		sc.nextLine();
 		String prenom = askPrenomAuteur();
 		String nom = askNomAuteur();
 		byte age = askAgeAuteur();

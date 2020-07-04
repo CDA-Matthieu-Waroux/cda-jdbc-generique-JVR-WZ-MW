@@ -8,8 +8,10 @@ import com.librairie.model.personne.Editeur;
 
 public class ServiceEditeur {
 
+	public static IEditeurDao editeurDao = new EditeurDaoImpl();
+	
 	public static List<Editeur> getEditeurs() {
-		IEditeurDao editeurDao = new EditeurDaoImpl();
+		
 		List<Editeur> editeurs = editeurDao.readAll();
 		for (Editeur e : editeurs) {
 			System.out.println(e);
