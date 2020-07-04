@@ -25,7 +25,7 @@ public class UtilsLivre {
 	}
 	
 	public static void updateLivre() {
-		Livre livreToUpdate = selectkRefLivre();
+		Livre livreToUpdate = selectkIndexLivre();
 		System.out.println("livre selectionné = " + livreToUpdate);
 		int nombrePage = askNombrePage();
 		int prix = askPrix();
@@ -53,7 +53,7 @@ public class UtilsLivre {
 	}
 	
 	public static void deleteLivre() {
-		Livre livreToDelete = selectkRefLivre();
+		Livre livreToDelete = selectkIndexLivre();
 		System.out.println("livre selectionné = " + livreToDelete);
 		livreDao.delete(livreToDelete);
 		System.out.println("Livre supprimé");
@@ -61,7 +61,7 @@ public class UtilsLivre {
 
 	private static String askTitreLivre() {
 		System.out.println("Quel est le titre du livre ? : ");
-		String answer = sc.nextLine();
+		String answer = sc.nextLine().toUpperCase();
 		return answer;
 	}
 
@@ -103,10 +103,10 @@ public class UtilsLivre {
 		return livres.size() + 1;
 	}
 	
-	private static Livre selectkRefLivre() {
+	private static Livre selectkIndexLivre() {
 		List<Livre> livres = livreDao.readAll();
 		ServiceLivre.readLine();
-		System.out.println("Quel référence souhaitez-vous selectionner ? :");
+		System.out.println("Quel INDEX souhaitez-vous selectionner ? :");
 		int ref = Utils.readInt();
 		while(ref < 0 || ref > (livres.size())) {
 			System.out.println("Index non trouvée");
@@ -117,7 +117,7 @@ public class UtilsLivre {
 	}
 
 	public static void UpdateQuantiteLivre() {
-		Livre livreToUpdate = selectkRefLivre();
+		Livre livreToUpdate = selectkIndexLivre();
 		System.out.println("livre selectionné = " + livreToUpdate);
 		int quantitee = askQuantitee();
 		Livre livreUpdate = new Livre(livreToUpdate.getTitre(), livreToUpdate.getAuteur(), livreToUpdate.getNombrePage(),
