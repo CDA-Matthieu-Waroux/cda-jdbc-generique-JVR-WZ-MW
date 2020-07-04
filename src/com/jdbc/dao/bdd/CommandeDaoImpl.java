@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.jdbc.dao.ICommandeDao;
@@ -98,6 +99,31 @@ public class CommandeDaoImpl extends ICommandeDao {
 			e.printStackTrace();
 		}
 		return id;
+	}
+
+	public HashMap<Integer, Integer> contenuCmd(String sql, Object... args) {
+		int key = 0;
+		int value = 0;
+
+		try {
+			preparedStatement = connection.prepareStatement(sql);
+			for (int i = 0; i < args.length; i++) {
+				preparedStatement.setObject(i + 1, args[i]);
+			}
+			ResultSet rs = preparedStatement.executeQuery();
+
+			HashMap<Integer, Integer> hashMap = null;
+			if (rs.next()) {
+				hashMap = new HashMap<>();
+				value = rs.getInt(1);
+				key = rs.getInt(2);
+				hashMap.put(key, value);
+			}
+			return hashMap;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }
