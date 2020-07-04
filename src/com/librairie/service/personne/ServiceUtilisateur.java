@@ -64,10 +64,10 @@ public class ServiceUtilisateur {
 		String tempo = "";
 		byte tempo3 = 2;
 		System.out.println("Veuillez saisir votre prénom");
-		tempo = sc.nextLine().toUpperCase();
+		tempo = Utils.regexStringOnly(sc.nextLine());
 		vUtilisateur.setPrenom(tempo);
 		System.out.println("Veuillez saisir votre nom");
-		tempo = sc.nextLine().toUpperCase();
+		tempo = Utils.regexStringOnly(sc.nextLine());
 		vUtilisateur.setNom(tempo);
 		System.out.println("Veuillez saisir votre age");
 		tempo3 = Utils.readByte();

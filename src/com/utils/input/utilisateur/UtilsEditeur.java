@@ -43,6 +43,7 @@ public class UtilsEditeur {
 
 	public static String askNomEditeur() {
 		System.out.println("Quel est le nom de l'editeur : ");
+		sc.nextLine();
 		String answer = sc.nextLine();
 		return answer;
 	}

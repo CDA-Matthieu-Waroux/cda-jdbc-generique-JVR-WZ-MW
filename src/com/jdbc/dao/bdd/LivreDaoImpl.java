@@ -19,12 +19,10 @@ import com.librairie.model.personne.Editeur;
 public class LivreDaoImpl implements ILivreDao {
 
 	Connection connection = Program.c;
-
 	@Override
 	public void create(Livre pObject) {
 		// _id_auteur, _id_editeur, _titre, _nombre_page, _prix, _quantitee
-		String query = "call AddLivre(?,?,?,?,?,?)";
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
+		try (PreparedStatement statement = connection.prepareStatement("call AddLivre(?,?,?,?,?,?)")) {
 
 			statement.setInt(1, pObject.getAuteur().getId());
 			statement.setInt(2, pObject.getEditeur().getIdEditeur());
@@ -115,8 +113,7 @@ public class LivreDaoImpl implements ILivreDao {
 
 	@Override
 	public void updateQuantitee(Livre pObject) {
-		String query = "UPDATE livre " + "SET livre.QUANTITEE = (?) " + "WHERE livre.REFERENCE = (?)";
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
+		try (PreparedStatement statement = connection.prepareStatement("UPDATE livre SET livre.QUANTITEE = (?) WHERE livre.REFERENCE = (?)")) {
 
 			statement.setInt(1, pObject.getQuantitee());
 			statement.setInt(2, pObject.getReference());
@@ -129,8 +126,7 @@ public class LivreDaoImpl implements ILivreDao {
 
 	@Override
 	public void delete(Livre pObject) {
-		String query = "DELETE FROM livre WHERE livre.reference = (?)";
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
+		try (PreparedStatement statement = connection.prepareStatement("DELETE FROM livre WHERE livre.reference = (?)")) {
 
 			statement.setInt(1, pObject.getReference());
 			statement.executeUpdate();

@@ -30,12 +30,12 @@ public class UtilsAuteur {
 
 	public static String askNomAuteur() {
 		System.out.println("Entrer le nom de l'auteur : ");
-		return sc.nextLine();
+		return Utils.regexStringOnly(sc.nextLine());
 	}
 
 	public static String askPrenomAuteur() {
 		System.out.println("Entrer le prenom de l'auteur : ");
-		return sc.nextLine();
+		return Utils.regexStringOnly(sc.nextLine());
 	}
 
 	public static Auteur choixAuteur() {

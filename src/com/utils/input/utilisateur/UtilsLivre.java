@@ -108,12 +108,12 @@ public class UtilsLivre {
 		ServiceLivre.readLine();
 		System.out.println("Quel référence souhaitez-vous selectionner ? :");
 		int ref = Utils.readInt();
-		while(ref < 0 || ref > (livres.size() + 1)) {
+		while(ref < 0 || ref > (livres.size())) {
 			System.out.println("Index non trouvée");
 			System.out.println("Saisir à nouveau : ");
 			ref = Utils.readInt();
 		}
-		return livres.get(ref-1);
+		return livres.get(ref);
 	}
 
 	public static void UpdateQuantiteLivre() {
