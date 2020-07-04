@@ -8,11 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jdbc.dao.ICommandeDao;
+import com.librairie.exer.Program;
 import com.librairie.model.commande.Commande;
 import com.librairie.model.livre.Livre;
 
 public class CommandeDaoImpl extends ICommandeDao {
-	Connection connection = DatabaseConnection.getInstance().getConnection();
+	Connection connection = Program.c;
 	PreparedStatement preparedStatement = null;
 
 	public void update(String sql, Object... args) {

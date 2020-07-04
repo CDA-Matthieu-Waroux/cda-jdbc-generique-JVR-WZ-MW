@@ -6,12 +6,10 @@ import com.jdbc.dao.bdd.DatabaseConnection;
 import com.librairie.menu.Menu;
 
 public class Program {
+	public static Connection c = DatabaseConnection.getInstance().getConnection();
+
 	public static void main(String[] args) {
-		Connection c = null;
-		c = DatabaseConnection.getInstance().getConnection();
-		System.out.println("connecte");
 
 		Menu.init();
-
 	}
 }
