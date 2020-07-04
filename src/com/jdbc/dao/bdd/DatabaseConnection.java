@@ -46,7 +46,7 @@ public class DatabaseConnection {
 
 		// renvoie le nombre maximal de connexions pouvant rester inactives dans le
 		// pool.
-		ds.setMaxIdle(10);
+		ds.setMaxIdle(100);
 
 		// le nombre maximum de declaration ouvertes
 		ds.setMaxOpenPreparedStatements(100);

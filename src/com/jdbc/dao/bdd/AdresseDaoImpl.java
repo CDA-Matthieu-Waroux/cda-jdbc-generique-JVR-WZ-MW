@@ -18,9 +18,9 @@ public class AdresseDaoImpl implements IAdresseDao {
 
 	@Override
 	public void create(Adresse pObject) {
-		String query = "call AddAdress(?,?,?,?,?)";
 
-		try (PreparedStatement statement = connection.prepareStatement(query)) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("call AddAdress(?,?,?,?,?)");
 			statement.setInt(1, pObject.getNumero());
 			statement.setString(2, pObject.getRue());
 			statement.setString(3, pObject.getVille());

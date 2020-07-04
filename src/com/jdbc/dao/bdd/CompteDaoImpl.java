@@ -7,10 +7,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.jdbc.dao.ICompteDao;
+import com.librairie.exer.Program;
 import com.librairie.model.compte.Compte;
 
 public class CompteDaoImpl implements ICompteDao {
-	Connection connection = DatabaseConnection.getInstance().getConnection();
+	Connection connection = Program.c;
 	PreparedStatement ps = null;
 
 	@Override

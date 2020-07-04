@@ -8,14 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jdbc.dao.IUtilisateurDao;
+import com.librairie.exer.Program;
 import com.librairie.model.commande.Adresse;
 import com.librairie.model.compte.Compte;
 import com.librairie.model.compte.TypeCompte;
 import com.librairie.model.personne.Utilisateur;
 
 public class UtilisateurDaoImpl implements IUtilisateurDao {
-	Connection connection = DatabaseConnection.getInstance().getConnection();
-	PreparedStatement ps = null;
+	Connection connection = Program.c;
+
 	Compte compte = new Compte();
 	List<Utilisateur> listUtilisateur = new ArrayList<>();
 	Utilisateur utilisateur;
@@ -25,8 +26,8 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 	@Override
 	public void create(Utilisateur pObbject) {
 
-		try {
-			ps = connection.prepareStatement("call AddCompteUtilisateur(?, ?, ?,?, ?, ?);");
+		try (PreparedStatement ps = connection.prepareStatement("call AddCompteUtilisateur(?, ?, ?,?, ?, ?);");) {
+
 			ps.setByte(1, pObbject.getCp().getType().getNumero());
 			ps.setString(2, pObbject.getCp().getLogin());
 			ps.setString(3, pObbject.getCp().getPassword());
@@ -61,8 +62,8 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 	@Override
 	public void createDemandeCompte(Utilisateur pObject) {
 
-		try {
-			ps = connection.prepareStatement("call AjoutCompteValidation(?,?,?,?,?,?,?,?,?,?,?)");
+		try (PreparedStatement ps = connection.prepareStatement("call AjoutCompteValidation(?,?,?,?,?,?,?,?,?,?,?)");) {
+
 			ps.setString(1, pObject.getCp().getLogin());
 			ps.setString(2, pObject.getCp().getPassword());
 			ps.setString(3, pObject.getNom());
@@ -91,8 +92,9 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 			listUtilisateur.clear();
 		}
 
-		try {
-			ps = connection.prepareStatement("select * from comptevalidation natural join typecompte ;");
+		try (PreparedStatement ps = connection
+				.prepareStatement("select * from comptevalidation natural join typecompte ;");) {
+
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -134,10 +136,9 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 	@Override
 	public Utilisateur getByLogin(Utilisateur pObjet) {
 
-		try {
-			ps = connection.prepareStatement(
-					"select compteutilisateur.nom,compteutilisateur.prenom, compteutilisateur.login ,compteutilisateur.password,compteutilisateur.id_compte , typecompte.libele_type_compte \r\n"
-							+ "from compteutilisateur \r\n" + "natural join typecompte \r\n" + "where login =?;");
+		try (PreparedStatement ps = connection.prepareStatement(
+				"select compteutilisateur.nom,compteutilisateur.prenom, compteutilisateur.login ,compteutilisateur.password,compteutilisateur.id_compte , typecompte.libele_type_compte \r\n"
+						+ "from compteutilisateur \r\n" + "natural join typecompte \r\n" + "where login =?;");) {
 
 			ps.setString(1, pObjet.getCp().getLogin());
 
@@ -170,8 +171,9 @@ public class UtilisateurDaoImpl implements IUtilisateurDao {
 
 	@Override
 	public void deleteCompteValidation(Utilisateur pObjet) {
-		try {
-			ps = connection.prepareStatement("delete from comptevalidation where id_compte_validation =?;");
+		try (PreparedStatement ps = connection
+				.prepareStatement("delete from comptevalidation where id_compte_validation =?;");) {
+
 			ps.setInt(1, pObjet.getCp().getIdCompte());
 			ps.executeUpdate();
 

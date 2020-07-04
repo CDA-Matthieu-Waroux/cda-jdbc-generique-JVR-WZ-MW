@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jdbc.dao.IAuteurDao;
+import com.librairie.exer.Program;
 import com.librairie.model.personne.Auteur;
 
 public class AuteurDaoImpl implements IAuteurDao {
 
-	Connection connection = DatabaseConnection.getInstance().getConnection();
+	Connection connection = Program.c;
 
 	@Override
 	public void create(Auteur pObject) {
