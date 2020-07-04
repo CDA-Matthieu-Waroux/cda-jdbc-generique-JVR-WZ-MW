@@ -28,7 +28,7 @@ public class ServiceCommande {
 		String sql = "INSERT INTO commande(id_compte, id_status_commande,date_commande) values (?,?,?)";
 		status = StatusCommande.ENCOURS.getNumero();
 		id = ServiceUtilisateur.getIdCompte();
-		cmdDao.update(sql, id, status, LocalDateTime.now().plusHours(2));
+		cmdDao.update(sql, id, status, LocalDateTime.now());
 
 		String sql1 = "SELECT LAST_INSERT_ID()";
 		lastId = cmdDao.getResult(sql1);
@@ -49,8 +49,16 @@ public class ServiceCommande {
 			case 1:
 
 				int exist = 0;
+				int result = 0;
 				System.out.println("Entrez la reference du livre");
 				int ref = Utils.readInt();
+
+				String sql7 = "select reference from livre where reference=?";
+				result = cmdDao.getResult(sql7, ref);
+				if (result == 0) {
+					System.out.println("Ce livre n'esite pas");
+					continue;
+				}
 
 				String sql2 = "select count(reference) from composer where numero_commande =? and reference=?";
 				exist = cmdDao.getResult(sql2, lastId, ref);
@@ -110,24 +118,28 @@ public class ServiceCommande {
 							cmdDao.update(sql8, qtyLivre - qty, ref);
 						}
 					} else if (confirmation == 'N') {
-						continue;
+						continuer = supprimerCmd();
 					}
 				}
 				break;
 			case 0:
-				String sql9 = "select count(reference) from composer where numero_commande =? ";
-				if (cmdDao.getResult(sql9, lastId) != 0) {
-					continuer = false;
-				} else {
-					String sql7 = "delete from commande where numero_commande=?";
-					cmdDao.update(sql7, lastId);
-					continuer = false;
-				}
+				continuer = supprimerCmd();
 				break;
 			default:
 				System.out.println("Votre saisie n'est pas correcte.");
 				break;
 			}
+		}
+	}
+
+	public static boolean supprimerCmd() {
+		String sql = "select count(reference) from composer where numero_commande =? ";
+		if (cmdDao.getResult(sql, lastId) != 0) {
+			return false;
+		} else {
+			String sql1 = "delete from commande where numero_commande=?";
+			cmdDao.update(sql1, lastId);
+			return false;
 		}
 	}
 
@@ -155,11 +167,11 @@ public class ServiceCommande {
 		String sql = "select commande.numero_commande, commande.date_commande, sum((composer.quantitee * livre.prix)) as prix_total, compteutilisateur.nom ,compteutilisateur.prenom ,statuscommande.libele_status_commande \n"
 				+ "from composer\n" + "natural join  commande\n"
 				+ "inner join livre on livre.reference =composer.reference\n"
-				+ "inner join compteutilisateur on compteutilisateur.id_compte =?\n"
 				+ "inner join statuscommande on statuscommande .id_status_commande  =commande .id_status_commande \n"
-				+ "group by numero_commande;";
+				+ "inner join compteutilisateur on compteutilisateur.id_compte =commande.id_compte\n"
+				+ "where commande.id_compte=?\n" + "group by numero_commande;";
 
-		List<Commande> list = cmdDao.readAll(sql, ServiceUtilisateur.getIdCompte());
+		list = cmdDao.readAll(sql, ServiceUtilisateur.getIdCompte());
 
 		for (Commande c : list) {
 			System.out.println(c);
@@ -202,8 +214,8 @@ public class ServiceCommande {
 		System.out.println("Entrez le numero de commande");
 		int nb = Utils.readInt();
 
-		String sql = "select id_status_commande from commande where numero_commande=?";
-		int status = cmdDao.getResult(sql, nb);
+		String sql = "select id_status_commande from commande where numero_commande=? and id_compte =?";
+		int status = cmdDao.getResult(sql, nb, ServiceUtilisateur.getIdCompte());
 
 		String sql1 = "update commande set id_status_commande =? where numero_commande =?";
 
