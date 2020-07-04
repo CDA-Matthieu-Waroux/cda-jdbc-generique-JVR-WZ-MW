@@ -139,4 +139,9 @@ public class LivreDaoImpl implements ILivreDao {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+	public Livre selectLivreByRef(int pIndex) {
+		return null;
+	}
 }
