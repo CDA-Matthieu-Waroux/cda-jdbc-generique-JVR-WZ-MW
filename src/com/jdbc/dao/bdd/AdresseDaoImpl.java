@@ -9,11 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jdbc.dao.IAdresseDao;
+import com.librairie.exer.Program;
 import com.librairie.model.commande.Adresse;
 
 public class AdresseDaoImpl implements IAdresseDao {
 
-	Connection connection = DatabaseConnection.getInstance().getConnection();
+	Connection connection = Program.c;
 	PreparedStatement ps = null;
 
 	@Override

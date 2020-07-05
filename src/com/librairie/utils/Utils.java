@@ -1,6 +1,7 @@
 package com.librairie.utils;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Utils {
 	private static Scanner scanner = new Scanner(System.in);
@@ -76,5 +77,15 @@ public class Utils {
 			}
 		}
 		return n;
+	}
+	
+	public static String regexStringOnly(String pString) {
+		
+		while(!pString.matches("^[a-zA-Z]+$")) {
+			System.out.println("Que les caractères sont accéptés");
+			pString = scanner.nextLine();
+		}
+		
+		return pString.toUpperCase();
 	}
 }

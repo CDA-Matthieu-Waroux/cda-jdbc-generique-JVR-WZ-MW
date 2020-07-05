@@ -1,6 +1,7 @@
 package com.librairie.service.commande;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 import com.jdbc.dao.bdd.CommandeDaoImpl;
@@ -81,11 +82,14 @@ public class ServiceCommande {
 						if (newQty <= 0) {
 							System.out.println("La quantite minimum est 1");
 						} else if (qtyLivre >= newQty) {
+							String sql6 = "select quantitee from composer where reference =? and numero_commande =?";
+							int qtyOld = cmdDao.getResult(sql6, ref, lastId);
+
 							String sql4 = "update composer set quantitee =? where numero_commande = ?";
 							cmdDao.update(sql4, newQty, lastId);
 							System.out.println("La quantite est modifiee");
 
-							cmdDao.update(sql8, qtyLivre - newQty, ref);
+							cmdDao.update(sql8, qtyLivre - newQty + qtyOld, ref);
 						} else {
 							System.out.println("Le quantite maximum est " + qtyLivre);
 						}
@@ -228,6 +232,19 @@ public class ServiceCommande {
 			case 1:
 				cmdDao.update(sql1, 3, nb);
 				System.out.println("Votre action est reussie");
+
+				String sql2 = "select quantitee,reference from composer where numero_commande =?";
+				HashMap<Integer, Integer> map = cmdDao.contenuCmd(sql2, nb);
+
+				for (Integer key : map.keySet()) {
+					Integer value = map.get(key);
+					String sql3 = "select quantitee from livre where reference =?";
+					int qty = cmdDao.getResult(sql3, key);
+					String sql8 = "update livre set quantitee =? where reference =?";
+					cmdDao.update(sql8, qty + value, key);
+
+				}
+
 				Utils.readReturn();
 				break;
 			case 0:
@@ -240,4 +257,5 @@ public class ServiceCommande {
 			System.out.println("Vous ne pouvez pas modifier l'etat de commande.");
 		}
 	}
+
 }

@@ -23,23 +23,30 @@ public class UtilsAdresse {
 	}
 
 	public static String askAdresseCp() {
-		System.out.println("Quel est le code postal de la ville  : ");
-		return sc.nextLine();
+
+		String f = "";
+
+		do {
+			System.out.println("Quel est le code postal de la ville  : ");
+			f = sc.nextLine();
+
+		} while (!(f.length() < 10 && f.matches("\\d+")));
+		return f;
 	}
 
 	public static String askPays() {
 		System.out.println("Quel est le pays ? : ");
-		return sc.nextLine();
+		return sc.nextLine().toUpperCase();
 	}
 
 	public static String askAdresseVille() {
 		System.out.println("Quel est la ville ? : ");
-		return sc.nextLine();
+		return sc.nextLine().toUpperCase();
 	}
 
 	public static String askAdresseRue() {
 		System.out.println("Quel est la rue  ? : ");
-		return sc.nextLine();
+		return sc.nextLine().toUpperCase();
 	}
 
 	public static int askAdresseNumero() {

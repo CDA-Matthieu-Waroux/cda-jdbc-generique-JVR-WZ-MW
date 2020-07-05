@@ -9,7 +9,7 @@ public class Program {
 	public static Connection c = DatabaseConnection.getInstance().getConnection();
 
 	public static void main(String[] args) {
-
 		Menu.init();
+
 	}
 }

@@ -25,7 +25,10 @@ public class ServiceLivre {
 
 	public static void readLine() {
 		List<Livre> livres = livreDao.readAll();
+		int i = 0;
 		for (Livre livre : livres) {
+			System.out.println("INDEX : " + i);
+			i++;
 			System.out.println(livre);
 		}
 	}
